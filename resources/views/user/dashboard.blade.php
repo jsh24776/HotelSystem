@@ -72,6 +72,32 @@
             max-width: 400px;
         }
         
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
         @media (max-width: 768px) {
             .mobile-menu {
                 transform: translateX(-100%);
@@ -96,6 +122,52 @@
             .overlay.active {
                 display: block;
             }
+        }
+        
+        .room-card {
+            transition: all 0.3s ease;
+        }
+        
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .booking-status-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .booking-status-confirmed {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .booking-status-cancelled {
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .booking-status-completed {
+            background-color: #E0E7FF;
+            color: #3730A3;
+        }
+        
+        .paypal-button {
+            background-color: #0070BA;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        .paypal-button:hover {
+            background-color: #005EA6;
         }
     </style>
 </head>
@@ -150,6 +222,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="#" data-tab="search-rooms" class="nav-item flex items-center py-3 px-6 text-gray-600">
+                            <i class="fas fa-search mr-3"></i> Find Rooms
+                        </a>
+                    </li>
+                    <li>
                         <a href="#" data-tab="profile" class="nav-item flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-user mr-3"></i> Profile
                         </a>
@@ -171,10 +248,10 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
-                            {{ substr(Auth::user()->name, 0, 2) }}
+                            JS
                         </div>
                         <div class="ml-3">
-                            <p class="font-semibold">{{ Auth::user()->name }}</p>
+                            <p class="font-semibold">John Smith</p>
                             <p class="text-sm text-gray-500">User</p>
                         </div>
                     </div>
@@ -186,14 +263,12 @@
             </div>
         </aside>
         
-        <!-- Main Content -->
         <main class="flex-1 ml-0 md:ml-64 p-6">
-            <!-- Header -->
             <header class="mb-8">
                 <div class="flex justify-between items-center">
                     <div>
                         <h1 id="page-title" class="text-3xl font-bold text-eco-dark">Dashboard</h1>
-                        <p id="page-subtitle" class="text-gray-600">Welcome back, {{ Auth::user()->name }}! Here's your overview.</p>
+                        <p id="page-subtitle" class="text-gray-600">Welcome back, John Smith! Here's your overview.</p>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="relative">
@@ -207,24 +282,23 @@
                             <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">3</span>
                         </div>
                         
-                        <!-- User Dropdown Menu -->
                         <div class="dropdown relative">
                             <button id="userDropdownToggle" class="flex items-center space-x-2 focus:outline-none">
                                 <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
-                                    {{ substr(Auth::user()->name, 0, 2) }}
+                                    JS
                                 </div>
-                                <span class="hidden md:block text-gray-700">{{ Auth::user()->name }}</span>
+                                <span class="hidden md:block text-gray-700">John Smith</span>
                                 <i class="fas fa-chevron-down text-gray-500"></i>
                             </button>
                             
-                            <div class="dropdown-content mt-2">
-                                <a href="#" data-tab="profile" class="block px-4 py-3 text-gray-700 hover:bg-eco-cream border-b border-gray-100">
+                            <div class="dropdown-content hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-20 border border-gray-200">
+                                <a href="/profile" class="block px-4 py-3 text-gray-700 hover:bg-eco-cream border-b border-gray-100">
                                     <i class="fas fa-user mr-2"></i>My Profile
                                 </a>
-                                <a href="#" data-tab="settings" class="block px-4 py-3 text-gray-700 hover:bg-eco-cream border-b border-gray-100">
+                                <a href="/settings" class="block px-4 py-3 text-gray-700 hover:bg-eco-cream border-b border-gray-100">
                                     <i class="fas fa-cog mr-2"></i>Settings
                                 </a>
-                                <!-- Laravel Breeze Logout Form -->
+                                
                                 <form method="POST" action="{{ route('logout') }}" class="w-full">
                                     @csrf
                                     <button type="submit" class="w-full text-left px-4 py-3 text-gray-700 hover:bg-eco-cream flex items-center">
@@ -258,8 +332,8 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-gray-500">Total Spent</p>
-                                <h3 class="text-2xl font-bold text-eco-dark">$245.00</h3>
-                                <p class="text-green-600 text-sm mt-1"><i class="fas fa-dollar-sign mr-1"></i> Last payment: $85.00</p>
+                                <h3 class="text-2xl font-bold text-eco-dark">₱5,245.00</h3>
+                                <p class="text-green-600 text-sm mt-1"><i class="fas fa-peso-sign mr-1"></i> Last payment: ₱685.00</p>
                             </div>
                             <div class="bg-eco-light bg-opacity-20 p-3 rounded-lg">
                                 <i class="fas fa-credit-card text-eco-accent text-xl"></i>
@@ -383,7 +457,7 @@
                                     </div>
                                     <div>
                                         <p class="font-medium">Payment received</p>
-                                        <p class="text-sm text-gray-500">Payment of $85.00 for booking #BK-7832 was confirmed</p>
+                                        <p class="text-sm text-gray-500">Payment of ₱9,185.00 for booking #BK-7832 was confirmed</p>
                                         <p class="text-xs text-gray-400 mt-1">5 days ago</p>
                                     </div>
                                 </div>
@@ -407,7 +481,7 @@
                         </div>
                         <div class="p-6">
                             <div class="grid grid-cols-2 gap-4">
-                                <a href="#" data-tab="bookings" class="bg-eco-cream hover:bg-eco-light hover:bg-opacity-20 p-4 rounded-lg text-center transition-colors">
+                                <a href="#" data-tab="search-rooms" class="bg-eco-cream hover:bg-eco-light hover:bg-opacity-20 p-4 rounded-lg text-center transition-colors">
                                     <i class="fas fa-plus-circle text-eco-accent text-2xl mb-2"></i>
                                     <p class="font-medium">New Booking</p>
                                 </a>
@@ -433,129 +507,208 @@
             <div id="bookings" class="tab-content">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
                     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                        <h2 class="text-xl font-bold text-eco-dark">My Bookings</h2>
-                        <button class="bg-eco-primary text-white px-4 py-2 rounded-lg hover:bg-eco-dark transition-colors flex items-center">
+                        <h2 class="text-xl font-bold text-eco-dark">My Reservations</h2>
+                        <button class="bg-eco-primary text-white px-4 py-2 rounded-lg hover:bg-eco-dark transition-colors flex items-center" data-tab="search-rooms">
                             <i class="fas fa-plus mr-2"></i> New Booking
                         </button>
                     </div>
                     
                     <div class="p-6">
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="bg-gray-50 text-left text-gray-500">
-                                        <th class="py-3 px-6 font-medium">Booking ID</th>
-                                        <th class="py-3 px-6 font-medium">Service</th>
-                                        <th class="py-3 px-6 font-medium">Date & Time</th>
-                                        <th class="py-3 px-6 font-medium">Amount</th>
-                                        <th class="py-3 px-6 font-medium">Status</th>
-                                        <th class="py-3 px-6 font-medium">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200">
-                                    <tr class="hover:bg-eco-cream transition-colors">
-                                        <td class="py-4 px-6 font-medium">#BK-7832</td>
-                                        <td class="py-4 px-6">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 rounded-lg bg-eco-light flex items-center justify-center text-eco-dark font-bold mr-3">
-                                                    <i class="fas fa-home"></i>
+                        <div class="mb-6">
+                            <div class="flex space-x-2 border-b border-gray-200">
+                                <button class="tab-button px-4 py-2 font-medium text-gray-500 hover:text-eco-dark border-b-2 border-transparent active" data-tab="all-bookings">All Bookings</button>
+                                <button class="tab-button px-4 py-2 font-medium text-gray-500 hover:text-eco-dark border-b-2 border-transparent" data-tab="upcoming-bookings">Upcoming</button>
+                                <button class="tab-button px-4 py-2 font-medium text-gray-500 hover:text-eco-dark border-b-2 border-transparent" data-tab="past-bookings">Past</button>
+                            </div>
+                        </div>
+                        
+                        <div id="all-bookings" class="booking-tab active">
+                            <div class="space-y-6">
+                                <!-- Booking Card 1 -->
+                                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                        <div class="flex items-start space-x-4">
+                                            <div class="w-16 h-16 bg-eco-light rounded-lg flex items-center justify-center text-eco-dark">
+                                                <i class="fas fa-home text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <h3 class="font-bold text-lg">Forest Retreat Cabin</h3>
+                                                <div class="flex flex-wrap gap-2 mt-2">
+                                                    <span class="text-sm text-gray-500"><i class="fas fa-calendar mr-1"></i> Jun 15-18, 2023 (3 nights)</span>
+                                                    <span class="text-sm text-gray-500"><i class="fas fa-user mr-1"></i> 2 guests</span>
                                                 </div>
-                                                <div>
-                                                    <p class="font-medium">Forest Retreat Cabin</p>
-                                                    <p class="text-sm text-gray-500">2 guests, 3 nights</p>
+                                                <div class="mt-2">
+                                                    <span class="booking-status-confirmed px-3 py-1 rounded-full text-xs font-medium">Confirmed</span>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td class="py-4 px-6">Jun 15-18, 2023<br><span class="text-sm text-gray-500">Check-in: 2:00 PM</span></td>
-                                        <td class="py-4 px-6 font-medium">$245.00</td>
-                                        <td class="py-4 px-6">
-                                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                Confirmed
-                                            </span>
-                                        </td>
-                                        <td class="py-4 px-6">
-                                            <div class="flex space-x-2">
+                                        </div>
+                                        <div class="mt-4 md:mt-0 flex flex-col items-end">
+                                            <p class="text-lg font-bold text-eco-dark">₱4,245.00</p>
+                                            <p class="text-sm text-gray-500">Booking #BK-7832</p>
+                                            <div class="flex space-x-2 mt-3">
                                                 <button class="text-eco-accent hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors" title="View Details">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
-                                                <button class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="Modify">
-                                                    <i class="fas fa-edit"></i>
+                                                <button class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="View Invoice">
+                                                    <i class="fas fa-file-invoice"></i>
                                                 </button>
                                                 <button class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors cancel-booking" title="Cancel" data-booking-id="7832" data-booking-name="Forest Retreat Cabin">
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-eco-cream transition-colors">
-                                        <td class="py-4 px-6 font-medium">#BK-7921</td>
-                                        <td class="py-4 px-6">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 rounded-lg bg-eco-light flex items-center justify-center text-eco-dark font-bold mr-3">
-                                                    <i class="fas fa-mountain"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Booking Card 2 -->
+                                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                        <div class="flex items-start space-x-4">
+                                            <div class="w-16 h-16 bg-eco-light rounded-lg flex items-center justify-center text-eco-dark">
+                                                <i class="fas fa-mountain text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <h3 class="font-bold text-lg">Mountain View Lodge</h3>
+                                                <div class="flex flex-wrap gap-2 mt-2">
+                                                    <span class="text-sm text-gray-500"><i class="fas fa-calendar mr-1"></i> Jun 22-24, 2023 (2 nights)</span>
+                                                    <span class="text-sm text-gray-500"><i class="fas fa-user mr-1"></i> 1 guest</span>
                                                 </div>
-                                                <div>
-                                                    <p class="font-medium">Mountain View Lodge</p>
-                                                    <p class="text-sm text-gray-500">1 guest, 2 nights</p>
+                                                <div class="mt-2">
+                                                    <span class="booking-status-pending px-3 py-1 rounded-full text-xs font-medium">Pending Payment</span>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td class="py-4 px-6">Jun 22-24, 2023<br><span class="text-sm text-gray-500">Check-in: 3:30 PM</span></td>
-                                        <td class="py-4 px-6 font-medium">$180.00</td>
-                                        <td class="py-4 px-6">
-                                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                Pending
-                                            </span>
-                                        </td>
-                                        <td class="py-4 px-6">
-                                            <div class="flex space-x-2">
+                                        </div>
+                                        <div class="mt-4 md:mt-0 flex flex-col items-end">
+                                            <p class="text-lg font-bold text-eco-dark">₱3,180.00</p>
+                                            <p class="text-sm text-gray-500">Booking #BK-7921</p>
+                                            <div class="flex space-x-2 mt-3">
                                                 <button class="text-eco-accent hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors" title="View Details">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
-                                                <button class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="Modify">
-                                                    <i class="fas fa-edit"></i>
+                                                <button class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="Make Payment">
+                                                    <i class="fas fa-credit-card"></i>
                                                 </button>
                                                 <button class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors cancel-booking" title="Cancel" data-booking-id="7921" data-booking-name="Mountain View Lodge">
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-eco-cream transition-colors">
-                                        <td class="py-4 px-6 font-medium">#BK-7543</td>
-                                        <td class="py-4 px-6">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 rounded-lg bg-eco-light flex items-center justify-center text-eco-dark font-bold mr-3">
-                                                    <i class="fas fa-umbrella-beach"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Booking Card 3 -->
+                                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                        <div class="flex items-start space-x-4">
+                                            <div class="w-16 h-16 bg-eco-light rounded-lg flex items-center justify-center text-eco-dark">
+                                                <i class="fas fa-umbrella-beach text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <h3 class="font-bold text-lg">Lakeside Cottage</h3>
+                                                <div class="flex flex-wrap gap-2 mt-2">
+                                                    <span class="text-sm text-gray-500"><i class="fas fa-calendar mr-1"></i> May 10-15, 2023 (5 nights)</span>
+                                                    <span class="text-sm text-gray-500"><i class="fas fa-user mr-1"></i> 4 guests</span>
                                                 </div>
-                                                <div>
-                                                    <p class="font-medium">Lakeside Cottage</p>
-                                                    <p class="text-sm text-gray-500">4 guests, 5 nights</p>
+                                                <div class="mt-2">
+                                                    <span class="booking-status-completed px-3 py-1 rounded-full text-xs font-medium">Completed</span>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td class="py-4 px-6">May 10-15, 2023<br><span class="text-sm text-gray-500">Completed</span></td>
-                                        <td class="py-4 px-6 font-medium">$420.00</td>
-                                        <td class="py-4 px-6">
-                                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                                Completed
-                                            </span>
-                                        </td>
-                                        <td class="py-4 px-6">
-                                            <div class="flex space-x-2">
+                                        </div>
+                                        <div class="mt-4 md:mt-0 flex flex-col items-end">
+                                            <p class="text-lg font-bold text-eco-dark">₱7,420.00</p>
+                                            <p class="text-sm text-gray-500">Booking #BK-7543</p>
+                                            <div class="flex space-x-2 mt-3">
                                                 <button class="text-eco-accent hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors" title="View Details">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
-                                                <button class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="Book Again">
+                                                <button class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="View Invoice">
+                                                    <i class="fas fa-file-invoice"></i>
+                                                </button>
+                                                <button class="text-green-500 hover:text-green-700 p-2 rounded-lg hover:bg-green-50 transition-colors" title="Book Again" data-tab="search-rooms">
                                                     <i class="fas fa-redo"></i>
                                                 </button>
                                             </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="upcoming-bookings" class="booking-tab">
+                            <div class="text-center py-8">
+                                <i class="fas fa-calendar text-4xl text-gray-300 mb-4"></i>
+                                <h3 class="text-xl font-medium text-gray-500">No upcoming bookings</h3>
+                                <p class="text-gray-400 mt-2">When you have upcoming bookings, they will appear here.</p>
+                                <button class="mt-4 bg-eco-primary text-white px-4 py-2 rounded-lg hover:bg-eco-dark transition-colors" data-tab="search-rooms">
+                                    Book a Room
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="past-bookings" class="booking-tab">
+                            <div class="text-center py-8">
+                                <i class="fas fa-history text-4xl text-gray-300 mb-4"></i>
+                                <h3 class="text-xl font-medium text-gray-500">No past bookings</h3>
+                                <p class="text-gray-400 mt-2">Your past bookings will appear here.</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Room Search Content -->
+            <div id="search-rooms" class="tab-content">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-bold text-eco-dark">Find Available Rooms</h2>
+                    </div>
+                    
+                    <div class="p-6">
+                        <form id="search-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label for="check-in" class="block text-sm font-medium text-gray-700 mb-2">Check-in Date</label>
+                                <input type="date" id="check-in" name="check-in" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" required>
+                            </div>
+                            
+                            <div>
+                                <label for="check-out" class="block text-sm font-medium text-gray-700 mb-2">Check-out Date</label>
+                                <input type="date" id="check-out" name="check-out" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" required>
+                            </div>
+                            
+                            <div>
+                                <label for="guests" class="block text-sm font-medium text-gray-700 mb-2">Guests</label>
+                                <select id="guests" name="guests" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                                    <option value="1">1 Guest</option>
+                                    <option value="2" selected>2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5+ Guests</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="room-type" class="block text-sm font-medium text-gray-700 mb-2">Room Type</label>
+                                <select id="room-type" name="room-type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                                    <option value="all">All Types</option>
+                                    <option value="single">Single Room</option>
+                                    <option value="double">Double Room</option>
+                                    <option value="suite">Suite</option>
+                                    <option value="family">Family Room</option>
+                                </select>
+                            </div>
+                            
+                            <div class="md:col-span-4 flex justify-end mt-2">
+                                <button type="submit" class="bg-eco-primary text-white px-6 py-2 rounded-lg hover:bg-eco-dark transition-colors flex items-center">
+                                    <i class="fas fa-search mr-2"></i> Search Rooms
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Available Rooms -->
+                <div id="available-rooms" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Room cards will be populated by JavaScript -->
                 </div>
             </div>
 
@@ -571,15 +724,15 @@
                             <div class="md:col-span-2 flex items-center space-x-6 mb-6">
                                 <div class="relative">
                                     <div class="w-24 h-24 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold text-2xl">
-                                        {{ substr(Auth::user()->name, 0, 2) }}
+                                        JS
                                     </div>
                                     <button type="button" class="absolute bottom-0 right-0 bg-eco-primary text-white p-2 rounded-full">
                                         <i class="fas fa-camera text-sm"></i>
                                     </button>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-bold">{{ Auth::user()->name }}</h3>
-                                    <p class="text-gray-500">Member since {{ Auth::user()->created_at->format('M Y') }}</p>
+                                    <h3 class="text-lg font-bold">John Smith</h3>
+                                    <p class="text-gray-500">Member since Jan 2023</p>
                                     <button type="button" class="text-eco-accent hover:text-eco-dark text-sm font-medium mt-2">
                                         Change Avatar
                                     </button>
@@ -591,7 +744,7 @@
                                 <input type="text" 
                                        name="name" 
                                        id="name" 
-                                       value="{{ Auth::user()->name }}"
+                                       value="John Smith"
                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent"
                                        required>
                             </div>
@@ -601,7 +754,7 @@
                                 <input type="email" 
                                        name="email" 
                                        id="email" 
-                                       value="{{ Auth::user()->email }}"
+                                       value="john.smith@example.com"
                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent"
                                        required>
                             </div>
@@ -671,7 +824,7 @@
                                         <td class="py-4 px-6 font-medium">#TX-7832</td>
                                         <td class="py-4 px-6">Jun 10, 2023</td>
                                         <td class="py-4 px-6">Payment for booking #BK-7832</td>
-                                        <td class="py-4 px-6 font-medium">$85.00</td>
+                                        <td class="py-4 px-6 font-medium">₱885.00</td>
                                         <td class="py-4 px-6">
                                             <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                 Completed
@@ -687,7 +840,7 @@
                                         <td class="py-4 px-6 font-medium">#TX-7543</td>
                                         <td class="py-4 px-6">May 5, 2023</td>
                                         <td class="py-4 px-6">Payment for booking #BK-7543</td>
-                                        <td class="py-4 px-6 font-medium">$420.00</td>
+                                        <td class="py-4 px-6 font-medium">₱1,420.00</td>
                                         <td class="py-4 px-6">
                                             <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                 Completed
@@ -703,7 +856,7 @@
                                         <td class="py-4 px-6 font-medium">#TX-7129</td>
                                         <td class="py-4 px-6">Apr 12, 2023</td>
                                         <td class="py-4 px-6">Payment for booking #BK-7129</td>
-                                        <td class="py-4 px-6 font-medium">$320.00</td>
+                                        <td class="py-4 px-6 font-medium">₱3,320.00</td>
                                         <td class="py-4 px-6">
                                             <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                 Completed
@@ -785,7 +938,6 @@
                     
                     <div class="p-6">
                         <div class="space-y-8">
-                            <!-- Notification Settings -->
                             <div>
                                 <h3 class="text-lg font-bold text-eco-dark mb-4">Notification Preferences</h3>
                                 <div class="space-y-4">
@@ -821,8 +973,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Privacy Settings -->
+                      
                             <div>
                                 <h3 class="text-lg font-bold text-eco-dark mb-4">Privacy & Security</h3>
                                 <div class="space-y-4">
@@ -881,7 +1032,315 @@
         </main>
     </div>
 
-    <!-- Logout Confirmation Modal -->
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-eco-dark">Complete Your Booking</h3>
+                    <button id="closeBookingModal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-4">Room Details</h4>
+                        <div id="booking-room-details" class="bg-eco-cream p-4 rounded-lg">
+                            <!-- Room details will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-4">Guest Information</h4>
+                        <form id="booking-form">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="guest-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <input type="text" id="guest-name" name="guest-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" value="John Smith" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="guest-email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input type="email" id="guest-email" name="guest-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" value="john.smith@example.com" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="guest-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                    <input type="tel" id="guest-phone" name="guest-phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" value="+1 (555) 123-4567" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="special-requests" class="block text-sm font-medium text-gray-700 mb-1">Special Requests</label>
+                                    <textarea id="special-requests" name="special-requests" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" placeholder="Any special requests or requirements..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-6 border-t border-gray-200">
+                                <button type="submit" class="w-full bg-eco-primary text-white py-3 rounded-lg hover:bg-eco-dark transition-colors font-medium">
+                                    Confirm Booking
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content max-w-3xl">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-eco-dark">Booking Invoice</h3>
+                    <div class="flex space-x-2">
+                        <button class="text-eco-accent hover:text-eco-dark p-2">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button class="text-eco-accent hover:text-eco-dark p-2">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button id="closeInvoiceModal" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="invoice-content" class="bg-white p-6 border border-gray-200 rounded-lg">
+                    <!-- Invoice content will be populated by JavaScript -->
+                </div>
+                
+              <div class="mt-6 flex justify-end space-x-4">
+                <button id="closeInvoice" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                    Close
+                </button>
+                <button id="proceedToPayment" class="px-6 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors">
+                    Proceed to Payment
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content max-w-2xl">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-eco-dark">Complete Payment</h3>
+                    <button id="closePaymentModal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-2">
+                        <h4 class="font-medium text-gray-700 mb-4">Payment Method</h4>
+                        
+                        <div class="space-y-4">
+
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <input type="radio" id="cash-payment" name="payment-method" class="mr-3" checked>
+                                        <label for="cash-payment" class="font-medium">Pay at Front Desk</label>
+                                    </div>
+                                    <div class="w-10 h-6 bg-eco-light rounded flex items-center justify-center">
+                                        <i class="fas fa-money-bill-wave text-eco-dark"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-2">Pay when you arrive at the hotel. Your booking will be confirmed immediately.</p>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-4">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center">
+            <input type="radio" id="paypal-payment" name="payment-method" class="mr-3">
+            <label for="paypal-payment" class="font-medium">PayPal</label>
+        </div>
+        <div class="w-10 h-6 bg-blue-500 rounded flex items-center justify-center">
+            <i class="fab fa-paypal text-white"></i>
+        </div>
+    </div>
+    <p class="text-sm text-gray-500 mt-2">Pay securely with your PayPal account.</p>
+    
+    <div id="paypal-container" class="mt-4 hidden">
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <!-- PayPal Header -->
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-2">
+                        <i class="fab fa-paypal text-white text-sm"></i>
+                    </div>
+                    <span class="font-semibold text-gray-700">PayPal</span>
+                </div>
+                <span class="text-sm text-gray-500">Secure payment</span>
+            </div>
+            
+            <!-- PayPal Login Section -->
+            <div id="paypal-login" class="space-y-3">
+                <div>
+                    <label for="paypal-email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+                    <input type="email" id="paypal-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your PayPal email">
+                </div>
+                
+                <div>
+                    <label for="paypal-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="paypal-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your PayPal password">
+                </div>
+                
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                        <span class="text-gray-600">Stay logged in</span>
+                    </label>
+                    <a href="#" class="text-blue-600 hover:text-blue-500">Having trouble logging in?</a>
+                </div>
+                
+                <button id="paypal-login-btn" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors font-medium">
+                    Log In to PayPal
+                </button>
+                
+                <div class="text-center">
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-500">Pay with debit or credit card</a>
+                </div>
+            </div>
+            
+            <!-- PayPal Payment Options (hidden initially) -->
+            <div id="paypal-payment-options" class="hidden space-y-4">
+           
+                <div>
+                    <h4 class="font-medium text-gray-700 mb-2">Payment Method</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center p-3 border border-gray-200 rounded-md bg-white">
+                            <input type="radio" name="paypal-funding" value="balance" class="mr-3" checked>
+                            <div class="flex items-center">
+                                <div class="w-8 h-5 bg-blue-100 rounded flex items-center justify-center mr-2">
+                                    <i class="fab fa-paypal text-blue-500 text-xs"></i>
+                                </div>
+                                <span class="text-sm">PayPal Balance</span>
+                            </div>
+                            <span class="ml-auto text-sm font-medium">₱850.00</span>
+                        </div>
+                        
+                        <div class="flex items-center p-3 border border-gray-200 rounded-md bg-white">
+                            <input type="radio" name="paypal-funding" value="bank" class="mr-3">
+                            <div class="flex items-center">
+                                <div class="w-8 h-5 bg-gray-100 rounded flex items-center justify-center mr-2">
+                                    <i class="fas fa-university text-gray-600 text-xs"></i>
+                                </div>
+                                <span class="text-sm">Bank Account (••• 4321)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-3 border border-gray-200 rounded-md bg-white">
+                            <input type="radio" name="paypal-funding" value="card" class="mr-3">
+                            <div class="flex items-center">
+                                <div class="w-8 h-5 bg-blue-500 rounded flex items-center justify-center mr-2">
+                                    <i class="fab fa-cc-visa text-white text-xs"></i>
+                                </div>
+                                <span class="text-sm">Visa (••• 4242)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+             
+                <div class="bg-yellow-50 border border-yellow-200 rounded-md p-3">
+                    <div class="flex items-start">
+                        <i class="fas fa-shield-alt text-yellow-500 mt-0.5 mr-2"></i>
+                        <div class="text-sm">
+                            <p class="font-medium text-yellow-800">PayPal Buyer Protection</p>
+                            <p class="text-yellow-700 mt-1">You're protected by PayPal's comprehensive buyer protection policy. If there's an issue with your booking, you may be eligible for a full refund.</p>
+                        </div>
+                    </div>
+                </div>
+                
+              
+                <div class="flex items-start">
+                    <input type="checkbox" id="paypal-agreement" class="mt-1 mr-2 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                    <label for="paypal-agreement" class="text-sm text-gray-600">
+                        I agree to the <a href="#" class="text-blue-600 hover:text-blue-500">Terms of Service</a> and acknowledge I have read the <a href="#" class="text-blue-600 hover:text-blue-500">Privacy Policy</a>. I understand that charges will appear as "BrokenShire Resort" on my statement.
+                    </label>
+                </div>
+       
+                <button id="paypal-pay-now" class="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors font-medium flex items-center justify-center">
+                    <i class="fab fa-paypal mr-2"></i>
+                    Pay Now ₱4,880.00
+                </button>
+                
+           
+                <div class="text-center">
+                    <div class="flex items-center justify-center text-xs text-gray-500">
+                        <i class="fas fa-lock mr-1"></i>
+                        <span>Secure SSL Encryption</span>
+                    </div>
+                </div>
+            </div>
+            
+    
+            <div id="paypal-processing" class="hidden text-center py-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fab fa-paypal text-blue-500 text-2xl"></i>
+                </div>
+                <h4 class="font-medium text-gray-700 mb-2">Processing Your Payment</h4>
+                <p class="text-sm text-gray-500 mb-4">Please wait while we securely process your payment.</p>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-blue-600 h-2 rounded-full animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                    
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-4">Order Summary</h4>
+                        <div id="payment-summary" class="bg-eco-cream p-4 rounded-lg">
+                            <!-- Payment summary will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="mt-6">
+                            <button id="confirmPayment" class="w-full bg-eco-primary text-white py-3 rounded-lg hover:bg-eco-dark transition-colors font-medium">
+                                Confirm Payment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content max-w-md">
+            <div class="p-6 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-green-500 text-2xl"></i>
+                </div>
+                
+                <h3 class="text-xl font-bold text-eco-dark mb-2">Booking Confirmed!</h3>
+                <p class="text-gray-600 mb-4">Your reservation has been successfully confirmed.</p>
+                
+                <div class="bg-eco-cream p-4 rounded-lg mb-6">
+                    <p class="font-medium">Booking Reference</p>
+                    <p class="text-2xl font-bold text-eco-dark">#BK-8294</p>
+                    <p class="text-sm text-gray-500 mt-2">Please save this reference number for your records.</p>
+                </div>
+                
+                <div class="flex flex-col space-y-3">
+                    <button class="w-full bg-eco-primary text-white py-3 rounded-lg hover:bg-eco-dark transition-colors font-medium">
+                        View Booking Details
+                    </button>
+                    <button id="closeConfirmationModal" class="w-full border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+                        Back to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Modal -->
     <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="flex items-center mb-4">
@@ -895,7 +1354,6 @@
             </div>
             <div class="flex justify-end space-x-3 mt-6">
                 <button id="cancelLogout" class="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
-                <!-- Laravel Breeze Logout Form -->
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
                     <button type="submit" class="px-4 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors">
@@ -906,7 +1364,7 @@
         </div>
     </div>
 
-    <!-- Cancel Booking Confirmation Modal -->
+    <!-- Cancel Booking Modal -->
     <div id="cancelBookingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="flex items-center mb-4">
@@ -926,95 +1384,551 @@
     </div>
 
     <script>
-        // Mobile menu toggle
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('active');
+        
+        const availableRooms = [
+            {
+                id: 1,
+                name: "Forest Retreat Cabin",
+                type: "Cabin",
+                price: 1415,
+                image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "A cozy cabin nestled in the forest with modern amenities and a private deck.",
+                maxGuests: 4,
+                amenities: ["WiFi", "Private Bathroom", "Kitchenette", "Air Conditioning"]
+            },
+            {
+                id: 2,
+                name: "Mountain View Lodge",
+                type: "Lodge",
+                price: 1590,
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Spacious lodge with breathtaking mountain views and a fireplace.",
+                maxGuests: 6,
+                amenities: ["WiFi", "Private Bathroom", "Kitchen", "Fireplace", "Balcony"]
+            },
+            {
+                id: 3,
+                name: "Lakeside Cottage",
+                type: "Cottage",
+                price: 1484,
+                image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Charming cottage by the lake with a private dock and fishing equipment.",
+                maxGuests: 4,
+                amenities: ["WiFi", "Private Bathroom", "Kitchenette", "Lake Access", "Fishing Equipment"]
+            },
+            {
+                id: 4,
+                name: "Eco Treehouse",
+                type: "Treehouse",
+                price: 1275,
+                image: "https://images.unsplash.com/photo-1591824438703-70e2c6d0e455?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Unique treehouse experience with eco-friendly features and panoramic views.",
+                maxGuests: 2,
+                amenities: ["WiFi", "Composting Toilet", "Solar Power", "Balcony"]
+            },
+            {
+                id: 5,
+                name: "Riverside Bungalow",
+                type: "Bungalow",
+                price: 1320,
+                image: "https://images.unsplash.com/photo-1586375300773-8384e3e4916f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Comfortable bungalow with direct river access and outdoor seating area.",
+                maxGuests: 3,
+                amenities: ["WiFi", "Private Bathroom", "Kitchenette", "River Access", "Outdoor Seating"]
+            },
+            {
+                id: 6,
+                name: "Wilderness Retreat",
+                type: "Cabin",
+                price: 1695,
+                image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                description: "Secluded retreat deep in the wilderness with modern comforts.",
+                maxGuests: 4,
+                amenities: ["WiFi", "Private Bathroom", "Full Kitchen", "Hot Tub", "Fire Pit"]
+            }
+        ];
+
+        // DOM Elements
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const userDropdownToggle = document.getElementById('userDropdownToggle');
+        const dropdown = userDropdownToggle.closest('.dropdown');
+        const mobileLogout = document.getElementById('mobileLogout');
+        const logoutModal = document.getElementById('logoutModal');
+        const cancelLogout = document.getElementById('cancelLogout');
+        const cancelBookingModal = document.getElementById('cancelBookingModal');
+        const cancelBookingNo = document.getElementById('cancelBookingNo');
+        const cancelBookingYes = document.getElementById('cancelBookingYes');
+        const bookingModal = document.getElementById('bookingModal');
+        const closeBookingModal = document.getElementById('closeBookingModal');
+        const invoiceModal = document.getElementById('invoiceModal');
+        const closeInvoiceModal = document.getElementById('closeInvoiceModal');
+        const closeInvoice = document.getElementById('closeInvoice');
+        const paymentModal = document.getElementById('paymentModal');
+        const closePaymentModal = document.getElementById('closePaymentModal');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const closeConfirmationModal = document.getElementById('closeConfirmationModal');
+        const searchForm = document.getElementById('search-form');
+        const availableRoomsContainer = document.getElementById('available-rooms');
+        const bookingForm = document.getElementById('booking-form');
+        const bookingRoomDetails = document.getElementById('booking-room-details');
+        const invoiceContent = document.getElementById('invoice-content');
+        const paymentSummary = document.getElementById('payment-summary');
+        const cashPayment = document.getElementById('cash-payment');
+        const paypalPayment = document.getElementById('paypal-payment');
+        const paypalContainer = document.getElementById('paypal-container');
+        const confirmPayment = document.getElementById('confirmPayment');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const bookingTabs = document.querySelectorAll('.booking-tab');
+        const paypalEmailInput = document.getElementById('paypal-email');
+        const paypalPasswordInput = document.getElementById('paypal-password');
+        const paypalLoginBtn = document.getElementById('paypal-login-btn');
+        const paypalLoginSection = document.getElementById('paypal-login');
+        const paypalPaymentOptions = document.getElementById('paypal-payment-options');
+        const paypalProcessing = document.getElementById('paypal-processing');
+        const paypalPayNowBtn = document.getElementById('paypal-pay-now');
+        const paypalAgreement = document.getElementById('paypal-agreement');
+        const proceedToPayment = document.getElementById('proceedToPayment');
+
+        // Current booking data
+        let currentBooking = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load available rooms
+            renderAvailableRooms(availableRooms);
+            
+            // Set default dates for search
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('check-in').valueAsDate = today;
+            document.getElementById('check-out').valueAsDate = tomorrow;
+            
+            // Initialize event listeners
+            initializeEventListeners();
         });
-        
-        document.getElementById('overlay').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.remove('open');
-            this.classList.remove('active');
-        });
-        
-        // User dropdown functionality
-        const dropdownToggle = document.getElementById('userDropdownToggle');
-        const dropdown = dropdownToggle.closest('.dropdown');
-        
-        dropdownToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdown.classList.toggle('open');
-        });
-        
-        document.addEventListener('click', function() {
-            dropdown.classList.remove('open');
-        });
-        
-        if (dropdown.querySelector('.dropdown-content')) {
-            dropdown.querySelector('.dropdown-content').addEventListener('click', function(e) {
+
+        // Initialize all event listeners
+        function initializeEventListeners() {
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            });
+            
+            // Overlay click to close mobile menu
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                this.classList.remove('active');
+            });
+            
+            // User dropdown toggle
+            userDropdownToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
+                const dropdownContent = dropdown.querySelector('.dropdown-content');
+                dropdownContent.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking elsewhere
+            document.addEventListener('click', function() {
+                const dropdownContent = dropdown.querySelector('.dropdown-content');
+                dropdownContent.classList.add('hidden');
+            });
+            
+            // Mobile logout button
+            mobileLogout.addEventListener('click', function() {
+                logoutModal.classList.remove('hidden');
+            });
+            
+            // Cancel logout
+            cancelLogout.addEventListener('click', function() {
+                logoutModal.classList.add('hidden');
+            });
+            
+            // Logout modal background click
+            logoutModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                }
+            });
+            
+            // Navigation items
+            document.querySelectorAll('.nav-item, .dropdown-content a[data-tab], a[data-tab], button[data-tab]').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Update active nav item
+                    document.querySelectorAll('.nav-item').forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    
+                    if (this.classList.contains('nav-item')) {
+                        this.classList.add('active');
+                    } else {
+                        // Find and activate the corresponding nav item
+                        const correspondingNavItem = document.querySelector(`.nav-item[data-tab="${targetTab}"]`);
+                        if (correspondingNavItem) {
+                            correspondingNavItem.classList.add('active');
+                        }
+                    }
+                    
+                    // Show target tab
+                    document.querySelectorAll('.tab-content').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    
+                    document.getElementById(targetTab).classList.add('active');
+                    
+                    // Update page title
+                    updatePageTitle(targetTab);
+                    
+                    // Close mobile menu
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                });
+            });
+            
+            // Booking tabs
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'border-eco-accent', 'text-eco-dark');
+                    });
+                    this.classList.add('active', 'border-eco-accent', 'text-eco-dark');
+                    
+                    // Show corresponding tab content
+                    bookingTabs.forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Search form submission
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real app, this would filter rooms based on search criteria
+                // For now, we'll just show all rooms
+                renderAvailableRooms(availableRooms);
+                showAlert('success', 'Search Complete', 'Available rooms are shown below.');
+            });
+            
+            // Booking form submission
+            bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                bookingModal.classList.remove('active');
+                // Generate invoice
+                generateInvoice();
+                invoiceModal.classList.add('active');
+            });
+            
+            // Close booking modal
+            closeBookingModal.addEventListener('click', function() {
+                bookingModal.classList.remove('active');
+            });
+            
+            // Close invoice modal
+            closeInvoiceModal.addEventListener('click', function() {
+                invoiceModal.classList.remove('active');
+            });
+            
+            closeInvoice.addEventListener('click', function() {
+                invoiceModal.classList.remove('active');
+            });
+            
+            // Payment method selection
+            cashPayment.addEventListener('change', function() {
+                if (this.checked) {
+                    paypalContainer.classList.add('hidden');
+                }
+            });
+            
+            paypalPayment.addEventListener('change', function() {
+                if (this.checked) {
+                    paypalContainer.classList.remove('hidden');
+                generatePaymentSummary();
+                paymentSummary.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span>Room Rate (3 nights)</span>
+                            <span>₱4,245.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Taxes & Fees</span>
+                            <span>₱635.00</span>
+                        </div>
+                        <div class="border-t border-gray-300 pt-2 flex justify-between font-bold">
+                            <span>Total</span>
+                            <span>₱4,880.00</span>
+                        </div>
+                    </div>
+                `;
+                }
+            });
+            
+            // Confirm payment
+            confirmPayment.addEventListener('click', function() {
+                paymentModal.classList.remove('active');
+                confirmationModal.classList.add('active');
+            });
+            
+            // Close payment modal
+            closePaymentModal.addEventListener('click', function() {
+                paymentModal.classList.remove('active');
+            });
+            
+            // Close confirmation modal
+            closeConfirmationModal.addEventListener('click', function() {
+                confirmationModal.classList.remove('active');
+                // Navigate to bookings tab
+                document.querySelector('.nav-item[data-tab="bookings"]').click();
+            });
+            
+            // Cancel booking buttons
+            document.querySelectorAll('.cancel-booking').forEach(button => {
+                button.addEventListener('click', function() {
+                    const bookingId = this.getAttribute('data-booking-id');
+                    const bookingName = this.getAttribute('data-booking-name');
+                    
+                    document.getElementById('cancel-booking-text').textContent = 
+                        `Are you sure you want to cancel your booking for "${bookingName}" (ID: #BK-${bookingId})?`;
+                    
+                    cancelBookingModal.classList.remove('hidden');
+                    
+                    // Set up confirmation action
+                    cancelBookingYes.onclick = function() {
+                        // In a real app, this would send a cancellation request to the server
+                        showAlert('success', 'Booking Cancelled', `Your booking for ${bookingName} has been cancelled. A confirmation email has been sent.`);
+                        cancelBookingModal.classList.add('hidden');
+                        
+                        // Update UI to reflect cancellation
+                        setTimeout(() => {
+                            const bookingCard = document.querySelector(`[data-booking-id="${bookingId}"]`).closest('.bg-white');
+                            const statusElement = bookingCard.querySelector('.booking-status-confirmed, .booking-status-pending');
+                            statusElement.className = 'booking-status-cancelled px-3 py-1 rounded-full text-xs font-medium';
+                            statusElement.textContent = 'Cancelled';
+                        }, 1000);
+                    };
+                });
+            });
+            
+            // Cancel booking modal buttons
+            cancelBookingNo.addEventListener('click', function() {
+                cancelBookingModal.classList.add('hidden');
+            });
+            
+            cancelBookingModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                }
+            });
+            
+            // Profile form submission
+            document.getElementById('profile-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showAlert('success', 'Profile Updated', 'Your profile information has been successfully updated.');
+            });
+            
+            // Alert close button
+            document.getElementById('alert-close').addEventListener('click', function() {
+                document.getElementById('alert').style.display = 'none';
             });
         }
-        
-        // Logout modal functionality
-        document.getElementById('mobileLogout').addEventListener('click', function() {
-            document.getElementById('logoutModal').classList.remove('hidden');
-        });
-        
-        document.getElementById('cancelLogout').addEventListener('click', function() {
-            document.getElementById('logoutModal').classList.add('hidden');
-        });
-        
-        document.getElementById('logoutModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.add('hidden');
-            }
-        });
-        
-        // Tab navigation
-        document.querySelectorAll('.nav-item, .dropdown-content a[data-tab], a[data-tab]').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
+
+        // Render available rooms
+        function renderAvailableRooms(rooms) {
+            availableRoomsContainer.innerHTML = '';
+            
+            rooms.forEach(room => {
+                const roomCard = document.createElement('div');
+                roomCard.className = 'room-card bg-white rounded-xl shadow-md overflow-hidden';
+                roomCard.innerHTML = `
+                    <div class="h-48 bg-gray-200 overflow-hidden">
+                        <img src="${room.image}" alt="${room.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-eco-dark">${room.name}</h3>
+                            <span class="bg-eco-light bg-opacity-20 text-eco-dark text-xs font-medium px-2 py-1 rounded">${room.type}</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">${room.description}</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fas fa-user mr-1"></i>
+                            <span>Up to ${room.maxGuests} guests</span>
+                            <i class="fas fa-wifi ml-4 mr-1"></i>
+                            <span>WiFi</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-2xl font-bold text-eco-dark">₱${room.price}<span class="text-sm font-normal text-gray-500">/night</span></p>
+                            </div>
+                            <button class="book-now-btn bg-eco-primary text-white px-4 py-2 rounded-lg hover:bg-eco-dark transition-colors" data-room-id="${room.id}">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                `;
                 
-                // Get the target tab
-                const targetTab = this.getAttribute('data-tab');
-                
-                // Update active nav item
-                document.querySelectorAll('.nav-item').forEach(navItem => {
-                    navItem.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Hide all tab contents
-                document.querySelectorAll('.tab-content').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                
-                // Show target tab content
-                document.getElementById(targetTab).classList.add('active');
-                
-                // Update page title and subtitle
-                updatePageTitle(targetTab);
-                
-                // Close mobile menu if open
-                document.getElementById('sidebar').classList.remove('open');
-                document.getElementById('overlay').classList.remove('active');
+                availableRoomsContainer.appendChild(roomCard);
             });
-        });
-        
-        // Function to update page title based on active tab
+            
+            // Add event listeners to book now buttons
+            document.querySelectorAll('.book-now-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const roomId = this.getAttribute('data-room-id');
+                    const room = availableRooms.find(r => r.id == roomId);
+                    openBookingModal(room);
+                });
+            });
+        }
+
+        // Open booking modal with room details
+        function openBookingModal(room) {
+            currentBooking = room;
+            
+            // Populate room details in modal
+            bookingRoomDetails.innerHTML = `
+                <h4 class="font-bold text-lg">${room.name}</h4>
+                <p class="text-gray-600 text-sm mt-1">${room.type}</p>
+                <div class="mt-4 space-y-2">
+                    <div class="flex justify-between">
+                        <span>Check-in</span>
+                        <span>${document.getElementById('check-in').value}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Check-out</span>
+                        <span>${document.getElementById('check-out').value}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Guests</span>
+                        <span>${document.getElementById('guests').value}</span>
+                    </div>
+                    <div class="flex justify-between font-bold mt-2 pt-2 border-t border-gray-300">
+                        <span>Total (3 nights)</span>
+                        <span>₱${room.price * 3}.00</span>
+                    </div>
+                </div>
+            `;
+            
+            // Show booking modal
+            bookingModal.classList.add('active');
+        }
+
+        // Generate invoice content
+        function generateInvoice() {
+            const checkIn = document.getElementById('check-in').value;
+            const checkOut = document.getElementById('check-out').value;
+            const guests = document.getElementById('guests').value;
+            const room = currentBooking;
+            const roomTotal = room.price * 3;
+            const taxes = Math.round(roomTotal * 0.12);
+            const total = roomTotal + taxes;
+            
+            invoiceContent.innerHTML = `
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-eco-dark">BrokenShire Resort</h2>
+                        <p class="text-gray-600">123 Nature Trail, Eco Valley</p>
+                        <p class="text-gray-600">Phone: (555) 123-4567</p>
+                    </div>
+                    <div class="text-right">
+                        <h3 class="text-lg font-bold">INVOICE</h3>
+                        <p class="text-gray-600">#INV-${Math.floor(1000 + Math.random() * 9000)}</p>
+                        <p class="text-gray-600">Date: ${new Date().toLocaleDateString()}</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-2">Bill To:</h4>
+                        <p>${document.getElementById('guest-name').value}</p>
+                        <p>${document.getElementById('guest-email').value}</p>
+                        <p>${document.getElementById('guest-phone').value}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-2">Booking Details:</h4>
+                        <p>Check-in: ${checkIn}</p>
+                        <p>Check-out: ${checkOut}</p>
+                        <p>Guests: ${guests}</p>
+                    </div>
+                </div>
+                
+                <table class="w-full mb-6">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="text-left py-2 px-4 font-medium">Description</th>
+                            <th class="text-right py-2 px-4 font-medium">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b">${room.name} (3 nights @ ₱${room.price}/night)</td>
+                            <td class="py-2 px-4 border-b text-right">₱${roomTotal}.00</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b">Taxes & Fees</td>
+                            <td class="py-2 px-4 border-b text-right">₱${taxes}.00</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 font-bold">Total</td>
+                            <td class="py-2 px-4 text-right font-bold">₱${total}.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="text-sm text-gray-500 mt-6">
+                    <p>Thank you for choosing BrokenShire Resort. We look forward to hosting you!</p>
+                </div>
+            `;
+            
+            // Update payment summary
+            paymentSummary.innerHTML = `
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span>Room Rate (3 nights)</span>
+                        <span>₱${roomTotal}.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Taxes & Fees</span>
+                        <span>₱${taxes}.00</span>
+                    </div>
+                    <div class="border-t border-gray-300 pt-2 flex justify-between font-bold">
+                        <span>Total</span>
+                        <span>₱${total}.00</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generate payment summary
+        function generatePaymentSummary() {
+            // This would be called when payment method changes
+            // For now, we use the same data as in generateInvoice
+        }
+
+        // Update page title based on active tab
         function updatePageTitle(tab) {
             const titles = {
                 'dashboard': 'Dashboard',
-                'bookings': 'Bookings',
+                'bookings': 'My Reservations',
+                'search-rooms': 'Find Rooms',
                 'profile': 'Profile',
                 'payments': 'Payments',
                 'settings': 'Settings'
             };
             
             const subtitles = {
-                'dashboard': 'Welcome back, {{ Auth::user()->name }}! Here\'s your overview.',
+                'dashboard': 'Welcome back, John Smith! Here\'s your overview.',
                 'bookings': 'Manage your current and past bookings.',
+                'search-rooms': 'Find and book available rooms for your stay.',
                 'profile': 'View and update your personal information.',
                 'payments': 'View your payment history and manage payment methods.',
                 'settings': 'Customize your account preferences and settings.'
@@ -1023,60 +1937,15 @@
             document.getElementById('page-title').textContent = titles[tab];
             document.getElementById('page-subtitle').textContent = subtitles[tab];
         }
-        
-        // Profile form submission
-        document.getElementById('profile-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            showAlert('success', 'Profile Updated', 'Your profile information has been successfully updated.');
-        });
-        
-        // Cancel booking functionality
-        document.querySelectorAll('.cancel-booking').forEach(button => {
-            button.addEventListener('click', function() {
-                const bookingId = this.getAttribute('data-booking-id');
-                const bookingName = this.getAttribute('data-booking-name');
-                
-                document.getElementById('cancel-booking-text').textContent = 
-                    `Are you sure you want to cancel your booking for "${bookingName}" (ID: #BK-${bookingId})?`;
-                
-                document.getElementById('cancelBookingModal').classList.remove('hidden');
-                
-                // Set up confirmation handler
-                document.getElementById('cancelBookingYes').onclick = function() {
-                    // In a real app, you would make an API call here
-                    showAlert('success', 'Booking Cancelled', `Your booking for ${bookingName} has been cancelled. A confirmation email has been sent.`);
-                    document.getElementById('cancelBookingModal').classList.add('hidden');
-                    
-                    // In a real app, you would update the UI to reflect the cancellation
-                    // For this demo, we'll just simulate it
-                    setTimeout(() => {
-                        // Find and update the booking status
-                        const bookingRow = document.querySelector(`[data-booking-id="${bookingId}"]`).closest('tr');
-                        const statusCell = bookingRow.querySelector('td:nth-child(5)');
-                        statusCell.innerHTML = '<span class="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelled</span>';
-                    }, 1000);
-                };
-            });
-        });
-        
-        document.getElementById('cancelBookingNo').addEventListener('click', function() {
-            document.getElementById('cancelBookingModal').classList.add('hidden');
-        });
-        
-        document.getElementById('cancelBookingModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.add('hidden');
-            }
-        });
-        
-        // Alert functionality
+
+        // Show alert notification
         function showAlert(type, title, message) {
             const alert = document.getElementById('alert');
             const alertIcon = document.getElementById('alert-icon');
             const alertTitle = document.getElementById('alert-title');
             const alertMessage = document.getElementById('alert-message');
             
-            // Set alert type
+       
             if (type === 'success') {
                 alert.classList.remove('border-red-500');
                 alert.classList.add('border-eco-accent');
@@ -1086,34 +1955,111 @@
                 alert.classList.add('border-red-500');
                 alertIcon.className = 'fas fa-exclamation-circle text-red-500 text-xl mt-1';
             }
-            
-            // Set content
+  
             alertTitle.textContent = title;
             alertMessage.textContent = message;
             
-            // Show alert
+           
             alert.style.display = 'block';
             
-            
+        
             setTimeout(() => {
                 alert.style.display = 'none';
             }, 5000);
         }
-        
-       
-        document.getElementById('alert-close').addEventListener('click', function() {
-            document.getElementById('alert').style.display = 'none';
-        });
-        
+
+
+
+    paypalLoginBtn.addEventListener('click', function(e) {
+    e.preventDefault();
     
-        const searchInput = document.querySelector('input[type="text"]');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                const searchTerm = this.value.toLowerCase();
-               
-                console.log('Searching for:', searchTerm);
-            });
-        }
+    const email = paypalEmailInput.value;
+    const password = paypalPasswordInput.value;
+    
+    if (!email || !password) {
+        showAlert('error', 'Missing Information', 'Please enter your PayPal email and password.');
+        return;
+    }
+    
+    // Simulate login process
+    paypalLoginBtn.disabled = true;
+    paypalLoginBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Logging In...';
+    
+    setTimeout(() => {
+        // Show payment options after successful "login"
+        paypalLoginSection.classList.add('hidden');
+        paypalPaymentOptions.classList.remove('hidden');
+        paypalLoginBtn.disabled = false;
+        paypalLoginBtn.textContent = 'Log In to PayPal';
+        
+        showAlert('success', 'Login Successful', 'You have been successfully logged in to your PayPal account.');
+    }, 2000);
+});
+
+// PayPal pay now button
+paypalPayNowBtn.addEventListener('click', function() {
+    if (!paypalAgreement.checked) {
+        showAlert('error', 'Agreement Required', 'Please agree to the Terms of Service and Privacy Policy to continue.');
+        return;
+    }
+    
+    // Get selected funding source
+    const selectedFunding = document.querySelector('input[name="paypal-funding"]:checked').value;
+    const fundingSources = {
+        'balance': 'PayPal Balance',
+        'bank': 'Bank Account',
+        'card': 'Visa Card'
+    };
+    
+    // Show processing state
+    paypalPaymentOptions.classList.add('hidden');
+    paypalProcessing.classList.remove('hidden');
+    paypalPayNowBtn.disabled = true;
+    
+    // Simulate payment processing
+    setTimeout(() => {
+        paypalProcessing.classList.add('hidden');
+        
+        // Close payment modal and show confirmation
+        paymentModal.classList.remove('active');
+        confirmationModal.classList.add('active');
+        
+        showAlert('success', 'Payment Successful', `Your payment of ₱4,880.00 has been processed using your ${fundingSources[selectedFunding]}.`);
+    }, 3000);
+});
+
++
+paypalPayment.addEventListener('change', function() {
+    if (this.checked) {
+        paypalContainer.classList.remove('hidden');
+      
+        paypalLoginSection.classList.remove('hidden');
+        paypalPaymentOptions.classList.add('hidden');
+        paypalProcessing.classList.add('hidden');
+        paypalEmailInput.value = '';
+        paypalPasswordInput.value = '';
+        paypalAgreement.checked = false;
+    }
+});
+
+cashPayment.addEventListener('change', function() {
+    if (this.checked) {
+        paypalContainer.classList.add('hidden');
+    }
+}); 
+
+
+proceedToPayment.addEventListener('click', function() {
+    
+    invoiceModal.classList.remove('active');
+    
+  
+    paymentModal.classList.add('active');
+    
+   
+    cashPayment.checked = true;
+    paypalContainer.classList.add('hidden');
+});
     </script>
 </body>
 </html>

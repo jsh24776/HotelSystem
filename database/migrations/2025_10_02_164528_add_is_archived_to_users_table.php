@@ -6,23 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'status')) {
-                $table->string('status')->default('active');
-            }
-
-            if (!Schema::hasColumn('users', 'phone')) {
-                $table->string('phone')->nullable();
-            }
+               $table->boolean('is_archived')->default(0);
+          
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['status', 'phone']);
+              $table->dropColumn('is_archived');
+        
         });
     }
 };

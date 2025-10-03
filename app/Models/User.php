@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'status',
         'role',
+        'is_archived', 
     ];
 
     /**
@@ -46,6 +47,19 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_archived' => 'boolean',
         ];
     }
+
+     public function scopeActive($query)
+    {
+        return $query->where('is_archived', false);
+    }
+
+    // Scope for archived users
+    public function scopeArchived($query)
+    {
+        return $query->where('is_archived', true);
+    }
+
 }

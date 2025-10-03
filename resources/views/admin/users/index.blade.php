@@ -103,27 +103,28 @@
     </style>
 </head>
 <body class="bg-eco-cream text-gray-800">
-    <!-- Mobile Menu Button -->
+
     <div class="md:hidden fixed top-4 left-4 z-20">
         <button id="menuToggle" class="bg-eco-primary text-white p-2 rounded-lg">
             <i class="fas fa-bars"></i>
         </button>
     </div>
     
-    <!-- Overlay for mobile menu -->
+
     <div id="overlay" class="overlay"></div>
     
     <div class="flex min-h-screen">
        
         <aside id="sidebar" class="sidebar bg-white w-64 fixed h-full shadow-lg z-10">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold text-eco-dark flex items-center">
-                    <i class="fas fa-leaf text-eco-accent mr-2"></i>
-                     Admin
+             <div class="p-6">
+                <h1 class="text-2xl font-bold text-eco-dark flex items-center space-x-2">
+                    <i class="fas fa-leaf text-eco-primary"></i>
+                    <span>BrokenShire</span>
                 </h1>
+                <p class="text-sm text-gray-500 mt-1">Users Management</p>
             </div>
             
-            <nav class="mt-6">
+          <nav class="mt-6">
                 <ul>
                     <li>
                         <a href="{{ route('admin.dashboard') }}" 
@@ -132,31 +133,34 @@
                                  </a>
                     </li>
                    <li>
-                        <a href="{{ route('admin.users.index') }}" 
+                         <a href="{{ route('admin.users.index') }}" 
                                 class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                                 <i class="fas fa-users mr-3"></i> Users
                             </a>
                     </li>
                     <li>
-                        <a href="#" 
-                            class="sidebar-item flex items-center py-3 px-6 text-gray-600">
+                       <a href="{{ route('admin.payments.index') }}" 
+                            class="sidebar-item {{ request()->routeIs('admin.payments.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-credit-card mr-3"></i> Payments
                             </a>
                     </li>
                     <li>
-                        <a href="#" class="sidebar-item flex items-center py-3 px-6 text-gray-600">
+                       <a href="{{ route('admin.inventory.index') }}" 
+                       class="sidebar-item {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-boxes mr-3"></i>
                             Inventory
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="sidebar-item flex items-center py-3 px-6 text-gray-600">
+                        <a href="{{ route('admin.bookings.index') }}" 
+                         class="sidebar-item {{ request()->routeIs('admin.bookings.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-calendar-check mr-3"></i>
                             Current Bookings
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="sidebar-item flex items-center py-3 px-6 text-gray-600">
+                          <a href="{{ route('admin.reports.index') }}" 
+                           class="sidebar-item {{ request()->routeIs('reports.bookings.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-chart-bar mr-3"></i>
                             Reports & Analytics
                         </a>
@@ -168,10 +172,10 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
-                            JD
+                          Ad
                         </div>
                         <div class="ml-3">
-                            <p class="font-semibold">John Doe</p>
+                            <p class="font-semibold">Admin</p>
                             <p class="text-sm text-gray-500">Administrator</p>
                         </div>
                     </div>
@@ -208,9 +212,9 @@
                         <div class="dropdown relative">
                             <button id="userDropdownToggle" class="flex items-center space-x-2 focus:outline-none">
                                 <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
-                                    JD
+                                   Ad
                                 </div>
-                                <span class="hidden md:block text-gray-700">John Doe</span>
+                                <span class="hidden md:block text-gray-700">Admin</span>
                                 <i class="fas fa-chevron-down text-gray-500"></i>
                             </button>
                             
@@ -237,22 +241,20 @@
             <!-- User Management Content -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <h2 class="text-xl font-bold text-eco-dark">All Users</h2>
-                    <a href="{{ route('admin.users.create') }}" class="bg-eco-primary text-white px-4 py-2 rounded-lg hover:bg-eco-dark transition-colors flex items-center">
-                        <i class="fas fa-plus mr-2"></i> Add New User
-                    </a>
+                    <h2 class="text-xl font-bold text-eco-dark">All Guests</h2>
+                
                 </div>
                 
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead>
                             <tr class="bg-gray-50 text-left text-gray-500">
-                                <th class="py-3 px-6 font-medium">User</th>
+                                <th class="py-3 px-6 font-medium">Guest</th>
                                 <th class="py-3 px-6 font-medium">Email</th>
                                 <th class="py-3 px-6 font-medium">Phone</th>
-                                <th class="py-3 px-6 font-medium">Role</th>
+                             
                                 <th class="py-3 px-6 font-medium">Status</th>
-                                <th class="py-3 px-6 font-medium">Joined</th>
+                               
                                 <th class="py-3 px-6 font-medium">Actions</th>
                             </tr>
                         </thead>
@@ -272,19 +274,14 @@
                                 </td>
                                 <td class="py-4 px-6">{{ $user->email }}</td>
                                 <td class="py-4 px-6">{{ $user->phone ?? 'N/A' }}</td>
+                                
                                 <td class="py-4 px-6">
                                     <span class="px-3 py-1 rounded-full text-xs font-medium 
-                                        {{ $user->role == 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
-                                        {{ ucfirst($user->role) }}
-                                    </span>
-                                </td>
-                                <td class="py-4 px-6">
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium 
-                                        {{ $user->status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $user->status == 'check-in' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ ucfirst($user->status) }}
                                     </span>
                                 </td>
-                                <td class="py-4 px-6">{{ $user->created_at->format('M d, Y') }}</td>
+                             
                                 <td class="py-4 px-6">
                                     <div class="flex space-x-2">
                                         <a href="{{ route('admin.users.edit', $user) }}" 
@@ -292,16 +289,16 @@
                                            title="Edit User">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline delete-form">
-                                            @csrf
-                                            @method('DELETE')
-                                           <button type="button" 
-                                            class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors delete-btn"
-                                            title="Delete User"
-                                            data-user-name="{{ $user->name }}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                        </form>
+                                      <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline archive-form">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" 
+                                                        class="text-yellow-500 hover:text-yellow-700 p-2 rounded-lg hover:bg-yellow-50 transition-colors archive-btn"
+                                                        title="Archive Guest"
+                                                        data-user-name="{{ $user->name }}">
+                                                    <i class="fas fa-archive"></i>
+                                                </button>
+                                            </form>
                                     </div>
                                 </td>
                             </tr>
@@ -341,7 +338,7 @@
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-gray-500">Active Users</p>
-                            <h3 class="text-2xl font-bold text-eco-dark">{{ $users->where('status', 'active')->count() }}</h3>
+                            <h3 class="text-2xl font-bold text-eco-dark">{{ $users->where('status', 'check-in')->count() }}</h3>
                             <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up mr-1"></i> 8.2% from last month</p>
                         </div>
                         <div class="bg-eco-light bg-opacity-20 p-3 rounded-lg">
@@ -466,63 +463,64 @@
             });
         });
 
-        // Enhanced delete confirmation
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
+  
+document.addEventListener('DOMContentLoaded', function() {
+    const archiveButtons = document.querySelectorAll('.archive-btn');
+    
+    archiveButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
             
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const form = this.closest('.delete-form');
-                    const userName = this.getAttribute('data-user-name');
-                    
-                    // Create custom confirmation modal
-                    const modal = document.createElement('div');
-                    modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-                    modal.innerHTML = `
-                        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
-                                    <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-800">Confirm Deletion</h3>
-                                    <p class="text-gray-600">Are you sure you want to delete the user <strong>"${userName}"</strong>? This action cannot be undone.</p>
-                                </div>
-                            </div>
-                            <div class="flex justify-end space-x-3 mt-6">
-                                <button id="cancelDelete" class="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
-                                <button id="confirmDelete" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                                    Delete User
-                                </button>
-                            </div>
+            const form = this.closest('.archive-form');
+            const userName = this.getAttribute('data-user-name');
+            
+          
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-archive text-yellow-500 text-xl"></i>
                         </div>
-                    `;
-                    
-                    document.body.appendChild(modal);
-                    
-                    // Handle cancel
-                    modal.querySelector('#cancelDelete').addEventListener('click', function() {
-                        document.body.removeChild(modal);
-                    });
-                    
-                    // Handle confirm delete
-                    modal.querySelector('#confirmDelete').addEventListener('click', function() {
-                        form.submit();
-                    });
-                    
-                    // Close modal when clicking outside
-                    modal.addEventListener('click', function(e) {
-                        if (e.target === modal) {
-                            document.body.removeChild(modal);
-                        }
-                    });
-                });
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800">Archive User</h3>
+                            <p class="text-gray-600">Are you sure you want to archive the user <strong>"${userName}"</strong>? They will be hidden from the active users list but can be restored later.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button id="cancelArchive" class="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
+                        <button id="confirmArchive" class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                            Archive User
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Handle cancel
+            modal.querySelector('#cancelArchive').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+            
+            // Handle confirm archive
+            modal.querySelector('#confirmArchive').addEventListener('click', function() {
+                form.submit();
+            });
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
             });
         });
+    });
+});
 
-        // Enhanced search functionality
+
+        
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.querySelector('input[type="text"]');
             

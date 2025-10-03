@@ -84,22 +84,22 @@
     </style>
 </head>
 <body class="bg-eco-cream text-gray-800">
-    <!-- Mobile Menu Button -->
+ 
     <div class="md:hidden fixed top-4 left-4 z-20">
         <button id="menuToggle" class="bg-eco-primary text-white p-2 rounded-lg">
             <i class="fas fa-bars"></i>
         </button>
     </div>
     
-    <!-- Overlay for mobile menu -->
+ 
     <div id="overlay" class="overlay"></div>
     
     <div class="flex min-h-screen">
         <aside id="sidebar" class="sidebar bg-white w-64 fixed h-full shadow-lg z-10">
             <div class="p-6">
-                <h1 class="text-2xl font-bold text-eco-dark flex items-center">
-                    <i class="fas fa-leaf text-eco-accent mr-2"></i>
-                    BrokenShire Admin
+               <h1 class="text-2xl font-bold text-eco-dark flex items-center space-x-2">
+                    <i class="fas fa-leaf text-eco-primary"></i>
+                    <span>BrokenShire</span>
                 </h1>
             </div>
             
@@ -235,8 +235,7 @@
                     </ul>
                 </div>
             @endif
-            
-            <!-- Edit User Form -->
+        
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h2 class="text-xl font-bold text-eco-dark">User Information</h2>
@@ -277,22 +276,7 @@
                                    id="phone" 
                                    value="{{ old('phone', $user->phone) }}"
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
-                        </div>
-                        
-                        <!-- Role -->
-                        <div>
-                            <label for="role" class="block text-sm font-medium text-gray-700 mb-2">Role *</label>
-                            <select name="role" 
-                                    id="role" 
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent"
-                                    required>
-                                <option value="">Select Role</option>
-                                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Status -->
+                        </div> 
                         <div>
                             <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status *</label>
                             <select name="status" 
@@ -300,12 +284,12 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent"
                                     required>
                                 <option value="">Select Status</option>
-                                <option value="active" {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="inactive" {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="Check-in" {{ old('status', $user->status) == 'Check-in' ? 'selected' : '' }}>Check-in</option>
+                                <option value="Check-out" {{ old('status', $user->status) == 'Check-out' ? 'selected' : '' }}>Check-out</option>
                             </select>
                         </div>
                         
-                        <!-- Password -->
+                   
                         <div>
                             <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
                             <input type="password" 
@@ -316,7 +300,7 @@
                             <p class="text-xs text-gray-500 mt-1">Minimum 8 characters</p>
                         </div>
                         
-                        <!-- Confirm Password -->
+                      
                         <div>
                             <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
                             <input type="password" 
@@ -327,7 +311,6 @@
                         </div>
                     </div>
                     
-                    <!-- Form Actions -->
                     <div class="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
                         <a href="{{ route('admin.users.index') }}" 
                            class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
@@ -343,7 +326,7 @@
         </main>
     </div>
 
-    <!-- Logout Confirmation Modal -->
+
     <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="flex items-center mb-4">
@@ -357,7 +340,7 @@
             </div>
             <div class="flex justify-end space-x-3 mt-6">
                 <button id="cancelLogout" class="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
-                <!-- Laravel Breeze Logout Form -->
+             
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
                     <button type="submit" class="px-4 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors">
@@ -369,7 +352,7 @@
     </div>
 
     <script>
-        // Mobile menu toggle
+      
         document.getElementById('menuToggle').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('overlay').classList.toggle('active');
@@ -379,8 +362,7 @@
             document.getElementById('sidebar').classList.remove('open');
             this.classList.remove('active');
         });
-        
-        // User dropdown functionality
+  
         const dropdownToggle = document.getElementById('userDropdownToggle');
         const dropdown = dropdownToggle.closest('.dropdown');
         

@@ -117,11 +117,12 @@
     <div class="flex min-h-screen">
        
         <aside id="sidebar" class="sidebar bg-white w-64 fixed h-full shadow-lg z-10">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold text-eco-dark flex items-center">
-                    <i class="fas fa-leaf text-eco-accent mr-2"></i>
-                     Admin
+             <div class="p-6">
+                <h1 class="text-2xl font-bold text-eco-dark flex items-center space-x-2">
+                    <i class="fas fa-leaf text-eco-primary"></i>
+                    <span>BrokenShire</span>
                 </h1>
+                <p class="text-sm text-gray-500 mt-1">Dashboard</p>
             </div>
             
             <nav class="mt-6">
@@ -139,25 +140,28 @@
                             </a>
                     </li>
                     <li>
-                       <a href="{{ route('admin.payments') }}" 
-                            class="sidebar-item {{ request()->routeIs('admin.payments') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
+                       <a href="{{ route('admin.payments.index') }}" 
+                            class="sidebar-item {{ request()->routeIs('admin.payments.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-credit-card mr-3"></i> Payments
                             </a>
                     </li>
                     <li>
-                        <a href="#" class="sidebar-item flex items-center py-3 px-6 text-gray-600">
+                       <a href="{{ route('admin.inventory.index') }}" 
+                       class="sidebar-item {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-boxes mr-3"></i>
                             Inventory
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="sidebar-item flex items-center py-3 px-6 text-gray-600">
+                        <a href="{{ route('admin.bookings.index') }}" 
+                         class="sidebar-item {{ request()->routeIs('admin.bookings.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-calendar-check mr-3"></i>
                             Current Bookings
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="sidebar-item flex items-center py-3 px-6 text-gray-600">
+                          <a href="{{ route('admin.reports.index') }}" 
+                           class="sidebar-item {{ request()->routeIs('reports.bookings.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
                             <i class="fas fa-chart-bar mr-3"></i>
                             Reports & Analytics
                         </a>
@@ -169,10 +173,10 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
-                            JD
+                           Ad
                         </div>
                         <div class="ml-3">
-                            <p class="font-semibold">John Doe</p>
+                            <p class="font-semibold">Admin</p>
                             <p class="text-sm text-gray-500">Administrator</p>
                         </div>
                     </div>
@@ -209,9 +213,9 @@
                         <div class="dropdown relative">
                             <button id="userDropdownToggle" class="flex items-center space-x-2 focus:outline-none">
                                 <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
-                                    JD
+                                   Ad
                                 </div>
-                                <span class="hidden md:block text-gray-700">John Doe</span>
+                                <span class="hidden md:block text-gray-700">Admin</span>
                                 <i class="fas fa-chevron-down text-gray-500"></i>
                             </button>
                             
@@ -222,7 +226,7 @@
                                 <a href="/settings" class="block px-4 py-3 text-gray-700 hover:bg-eco-cream border-b border-gray-100">
                                     <i class="fas fa-cog mr-2"></i>Settings
                                 </a>
-                                <!-- Laravel Breeze Logout Form -->
+                
                                 <form method="POST" action="{{ route('logout') }}" class="w-full">
                                     @csrf
                                     <button type="submit" class="w-full text-left px-4 py-3 text-gray-700 hover:bg-eco-cream flex items-center">
@@ -245,7 +249,7 @@
                             <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up mr-1"></i> 12.5% from last month</p>
                         </div>
                         <div class="bg-eco-light bg-opacity-20 p-3 rounded-lg">
-                            <i class="fas fa-dollar-sign text-eco-accent text-xl"></i>
+                            <i class="fas fa-peso-sign text-eco-accent text-xl"></i>
                         </div>
                     </div>
                 </div>

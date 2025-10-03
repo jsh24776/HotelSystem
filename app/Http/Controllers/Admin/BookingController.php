@@ -7,13 +7,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class BookingController extends Controller
 {
     public function index() {
-           $users = User::active()
-                ->where('role', '!=', 'admin')
-                ->get();
-        return view('admin.users.index', compact('users'));
+        $users = User::all();
+        return view('admin.bookings.index', compact('users'));
     }
 
     public function create() {
@@ -27,6 +25,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'phone' => 'nullable|string',
             'password' => 'required|min:8',
+            'role' => 'required|in:admin,user',
         ]);
 
         $validated['password'] = bcrypt($validated['password']);
@@ -48,7 +47,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'nullable|string',
-            'status' => 'required|in:Check-in,Check-out',
+            'role' => 'required|in:admin,user',
+            'status' => 'required|in:active,inactive',
         ]);
 
         $user->update($validated);
@@ -59,19 +59,9 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-         $user->update(['is_archived' => true]);
+        $user->delete();
 
-    return redirect()->route('admin.users.index')
-        ->with('success', 'User archived successfully.');
+        return redirect()->route('admin.users.index')
+            ->with('success', 'User deleted successfully.');
     }
-
-    public function restore($id)
-{
-    $user = User::withTrashed()->findOrFail($id);
-    $user->update(['is_archived' => false]);
-
-    return redirect()->route('admin.users.index')
-        ->with('success', 'User restored successfully.');
-}
-
 }
