@@ -1123,182 +1123,186 @@
         </div>
     </div>
 
-    <!-- Payment Modal -->
+
     <div id="paymentModal" class="modal">
-        <div class="modal-content max-w-2xl">
+        <div class="modal-content max-w-4xl"> <!-- made wider -->
             <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-eco-dark">Complete Payment</h3>
-                    <button id="closePaymentModal" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-eco-dark">Complete Payment</h3>
+                <button id="closePaymentModal" class="text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-1">
+                <h4 class="font-medium text-gray-700 mb-4">Order Summary</h4>
+                <div id="payment-summary" class="bg-eco-cream p-4 rounded-lg">
+                  
+                </div>
+                </div>
+
                     <div class="md:col-span-2">
                         <h4 class="font-medium text-gray-700 mb-4">Payment Method</h4>
                         
                         <div class="space-y-4">
 
-                            <div class="border border-gray-200 rounded-lg p-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center">
-                                        <input type="radio" id="cash-payment" name="payment-method" class="mr-3" checked>
-                                        <label for="cash-payment" class="font-medium">Pay at Front Desk</label>
-                                    </div>
-                                    <div class="w-10 h-6 bg-eco-light rounded flex items-center justify-center">
-                                        <i class="fas fa-money-bill-wave text-eco-dark"></i>
-                                    </div>
+                          <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                <input type="radio" id="cash-payment" name="payment-method" class="mr-3" checked>
+                                <label for="cash-payment" class="font-medium">Pay at Front Desk</label>
                                 </div>
-                                <p class="text-sm text-gray-500 mt-2">Pay when you arrive at the hotel. Your booking will be confirmed immediately.</p>
+                                <div class="w-10 h-6 bg-eco-light rounded flex items-center justify-center">
+                                <i class="fas fa-money-bill-wave text-eco-dark"></i>
+                                </div>
                             </div>
-                            
-                            <div class="border border-gray-200 rounded-lg p-4">
-    <div class="flex items-center justify-between">
-        <div class="flex items-center">
-            <input type="radio" id="paypal-payment" name="payment-method" class="mr-3">
-            <label for="paypal-payment" class="font-medium">PayPal</label>
-        </div>
-        <div class="w-10 h-6 bg-blue-500 rounded flex items-center justify-center">
-            <i class="fab fa-paypal text-white"></i>
-        </div>
-    </div>
-    <p class="text-sm text-gray-500 mt-2">Pay securely with your PayPal account.</p>
-    
-    <div id="paypal-container" class="mt-4 hidden">
-        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <!-- PayPal Header -->
-            <div class="flex items-center justify-between mb-4">
+                            <p class="text-sm text-gray-500 mt-2">Pay when you arrive at the hotel. Your booking will be confirmed immediately.</p>
+                            </div>
+
+
+            <div class="border border-gray-200 rounded-lg p-4">
+              <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-2">
+                  <input type="radio" id="paypal-payment" name="payment-method" class="mr-3">
+                  <label for="paypal-payment" class="font-medium">PayPal</label>
+                </div>
+                <div class="w-10 h-6 bg-blue-500 rounded flex items-center justify-center">
+                  <i class="fab fa-paypal text-white"></i>
+                </div>
+              </div>
+              <p class="text-sm text-gray-500 mt-2">Pay securely with your PayPal account.</p>
+                                            
+     
+    
+   <div id="paypal-container" class="mt-4 hidden">
+    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+           
+              <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-2">
                         <i class="fab fa-paypal text-white text-sm"></i>
+                      </div>
+                      <span class="font-semibold text-gray-700">PayPal</span>
                     </div>
-                    <span class="font-semibold text-gray-700">PayPal</span>
-                </div>
-                <span class="text-sm text-gray-500">Secure payment</span>
-            </div>
-            
+                    <span class="text-sm text-gray-500">Secure payment</span>
+                  </div>
             <!-- PayPal Login Section -->
-            <div id="paypal-login" class="space-y-3">
-                <div>
-                    <label for="paypal-email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-                    <input type="email" id="paypal-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your PayPal email">
-                </div>
-                
-                <div>
-                    <label for="paypal-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="paypal-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your PayPal password">
-                </div>
-                
-                <div class="flex items-center justify-between text-sm">
-                    <label class="flex items-center">
+             <div id="paypal-login" class="space-y-3">
+                    <div>
+                      <label for="paypal-email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+                      <input type="email" id="paypal-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your PayPal email">
+                    </div>
+
+                    <div>
+                      <label for="paypal-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                      <input type="password" id="paypal-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your PayPal password">
+                    </div>
+
+                    <div class="flex items-center justify-between text-sm">
+                      <label class="flex items-center">
                         <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
                         <span class="text-gray-600">Stay logged in</span>
-                    </label>
-                    <a href="#" class="text-blue-600 hover:text-blue-500">Having trouble logging in?</a>
-                </div>
-                
-                <button id="paypal-login-btn" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors font-medium">
-                    Log In to PayPal
-                </button>
-                
-                <div class="text-center">
-                    <a href="#" class="text-sm text-blue-600 hover:text-blue-500">Pay with debit or credit card</a>
-                </div>
-            </div>
+                      </label>
+                      <a href="#" class="text-blue-600 hover:text-blue-500">Having trouble logging in?</a>
+                    </div>
+
+                    <button id="paypal-login-btn" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors font-medium">
+                      Log In to PayPal
+                    </button>
+
+                    <div class="text-center">
+                      <a href="#" class="text-sm text-blue-600 hover:text-blue-500">Pay with debit or credit card</a>
+                    </div>
+                  </div>
             
             <!-- PayPal Payment Options (hidden initially) -->
             <div id="paypal-payment-options" class="hidden space-y-4">
            
                 <div>
-                    <h4 class="font-medium text-gray-700 mb-2">Payment Method</h4>
-                    <div class="space-y-2">
+                   <h4 class="font-medium text-gray-700 mb-2">Payment Method</h4>
+                      <div class="space-y-2">
                         <div class="flex items-center p-3 border border-gray-200 rounded-md bg-white">
-                            <input type="radio" name="paypal-funding" value="balance" class="mr-3" checked>
-                            <div class="flex items-center">
-                                <div class="w-8 h-5 bg-blue-100 rounded flex items-center justify-center mr-2">
-                                    <i class="fab fa-paypal text-blue-500 text-xs"></i>
-                                </div>
-                                <span class="text-sm">PayPal Balance</span>
+                          <input type="radio" name="paypal-funding" value="balance" class="mr-3" checked>
+                          <div class="flex items-center">
+                            <div class="w-8 h-5 bg-blue-100 rounded flex items-center justify-center mr-2">
+                              <i class="fab fa-paypal text-blue-500 text-xs"></i>
                             </div>
-                            <span class="ml-auto text-sm font-medium">₱850.00</span>
+                            <span class="text-sm">PayPal Balance</span>
+                          </div>
+                          <span class="ml-auto text-sm font-medium">₱850.00</span>
                         </div>
-                        
+
                         <div class="flex items-center p-3 border border-gray-200 rounded-md bg-white">
-                            <input type="radio" name="paypal-funding" value="bank" class="mr-3">
-                            <div class="flex items-center">
-                                <div class="w-8 h-5 bg-gray-100 rounded flex items-center justify-center mr-2">
-                                    <i class="fas fa-university text-gray-600 text-xs"></i>
-                                </div>
-                                <span class="text-sm">Bank Account (••• 4321)</span>
+                          <input type="radio" name="paypal-funding" value="bank" class="mr-3">
+                          <div class="flex items-center">
+                            <div class="w-8 h-5 bg-gray-100 rounded flex items-center justify-center mr-2">
+                              <i class="fas fa-university text-gray-600 text-xs"></i>
                             </div>
+                            <span class="text-sm">Bank Account (••• 4321)</span>
+                          </div>
                         </div>
-                        
+
                         <div class="flex items-center p-3 border border-gray-200 rounded-md bg-white">
-                            <input type="radio" name="paypal-funding" value="card" class="mr-3">
-                            <div class="flex items-center">
-                                <div class="w-8 h-5 bg-blue-500 rounded flex items-center justify-center mr-2">
-                                    <i class="fab fa-cc-visa text-white text-xs"></i>
-                                </div>
-                                <span class="text-sm">Visa (••• 4242)</span>
+                          <input type="radio" name="paypal-funding" value="card" class="mr-3">
+                          <div class="flex items-center">
+                            <div class="w-8 h-5 bg-blue-500 rounded flex items-center justify-center mr-2">
+                              <i class="fab fa-cc-visa text-white text-xs"></i>
                             </div>
+                            <span class="text-sm">Visa (••• 4242)</span>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                </div>
                 
-             
-                <div class="bg-yellow-50 border border-yellow-200 rounded-md p-3">
-                    <div class="flex items-start">
+               <div class="bg-yellow-50 border border-yellow-200 rounded-md p-3">
+                      <div class="flex items-start">
                         <i class="fas fa-shield-alt text-yellow-500 mt-0.5 mr-2"></i>
                         <div class="text-sm">
-                            <p class="font-medium text-yellow-800">PayPal Buyer Protection</p>
-                            <p class="text-yellow-700 mt-1">You're protected by PayPal's comprehensive buyer protection policy. If there's an issue with your booking, you may be eligible for a full refund.</p>
+                          <p class="font-medium text-yellow-800">PayPal Buyer Protection</p>
+                          <p class="text-yellow-700 mt-1">You're protected by PayPal's comprehensive buyer protection policy. If there's an issue with your booking, you may be eligible for a full refund.</p>
                         </div>
+                      </div>
                     </div>
-                </div>
                 
               
-                <div class="flex items-start">
-                    <input type="checkbox" id="paypal-agreement" class="mt-1 mr-2 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                    <label for="paypal-agreement" class="text-sm text-gray-600">
+                 <div class="flex items-start">
+                      <input type="checkbox" id="paypal-agreement" class="mt-1 mr-2 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                      <label for="paypal-agreement" class="text-sm text-gray-600">
                         I agree to the <a href="#" class="text-blue-600 hover:text-blue-500">Terms of Service</a> and acknowledge I have read the <a href="#" class="text-blue-600 hover:text-blue-500">Privacy Policy</a>. I understand that charges will appear as "BrokenShire Resort" on my statement.
-                    </label>
-                </div>
+                      </label>
+                    </div>
        
-                <button id="paypal-pay-now" class="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors font-medium flex items-center justify-center">
-                    <i class="fab fa-paypal mr-2"></i>
-                    Pay Now ₱4,880.00
-                </button>
+                  <button id="paypal-pay-now" class="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors font-medium flex items-center justify-center">
+                      <i class="fab fa-paypal mr-2"></i>
+                      Pay Now ₱4,880.00
+                    </button>
                 
            
                 <div class="text-center">
-                    <div class="flex items-center justify-center text-xs text-gray-500">
+                      <div class="flex items-center justify-center text-xs text-gray-500">
                         <i class="fas fa-lock mr-1"></i>
                         <span>Secure SSL Encryption</span>
+                      </div>
                     </div>
-                </div>
-            </div>
+                  </div>
             
     
-            <div id="paypal-processing" class="hidden text-center py-6">
-                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fab fa-paypal text-blue-500 text-2xl"></i>
-                </div>
-                <h4 class="font-medium text-gray-700 mb-2">Processing Your Payment</h4>
-                <p class="text-sm text-gray-500 mb-4">Please wait while we securely process your payment.</p>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-blue-600 h-2 rounded-full animate-pulse"></div>
-                </div>
-            </div>
+             <div id="paypal-processing" class="hidden text-center py-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <i class="fab fa-paypal text-blue-500 text-2xl"></i>
+                    </div>
+                    <h4 class="font-medium text-gray-700 mb-2">Processing Your Payment</h4>
+                    <p class="text-sm text-gray-500 mb-4">Please wait while we securely process your payment.</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div class="bg-blue-600 h-2 rounded-full animate-pulse"></div>
+                    </div>
+                  </div>
         </div>
     </div>
 </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-gray-700 mb-4">Order Summary</h4>
-                        <div id="payment-summary" class="bg-eco-cream p-4 rounded-lg">
-                            <!-- Payment summary will be populated by JavaScript -->
-                        </div>
+
                         
                         <div class="mt-6">
                             <button id="confirmPayment" class="w-full bg-eco-primary text-white py-3 rounded-lg hover:bg-eco-dark transition-colors font-medium">
@@ -1311,7 +1315,7 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
+ 
     <div id="confirmationModal" class="modal">
         <div class="modal-content max-w-md">
             <div class="p-6 text-center">
