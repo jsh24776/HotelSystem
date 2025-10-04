@@ -33,8 +33,80 @@
     </style>
 </head>
 <body class="bg-eco-cream text-gray-800">
-    <!-- Copy the same sidebar and header from your users/index.blade.php -->
-    <!-- For brevity, I'll show just the main content -->
+   <div class="flex min-h-screen">
+       
+        <aside id="sidebar" class="sidebar bg-white w-64 fixed h-full shadow-lg z-10">
+             <div class="p-6">
+                <h1 class="text-2xl font-bold text-eco-dark flex items-center space-x-2">
+                    <i class="fas fa-leaf text-eco-primary"></i>
+                    <span>BrokenShire</span>
+                </h1>
+                <p class="text-sm text-gray-500 mt-1">Users Management</p>
+            </div>
+            
+          <nav class="mt-6">
+                <ul>
+                    <li>
+                        <a href="{{ route('admin.dashboard') }}" 
+                                class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
+                                <i class="fas fa-chart-pie mr-3"></i> Dashboard
+                                 </a>
+                    </li>
+                   <li>
+                         <a href="{{ route('admin.users.index') }}" 
+                                class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
+                                <i class="fas fa-users mr-3"></i> Users
+                            </a>
+                    </li>
+                    <li>
+                       <a href="{{ route('admin.payments.index') }}" 
+                            class="sidebar-item {{ request()->routeIs('admin.payments.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
+                            <i class="fas fa-credit-card mr-3"></i> Payments
+                            </a>
+                    </li>
+                    <li>
+                       <a href="{{ route('admin.inventory.index') }}" 
+                       class="sidebar-item {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
+                            <i class="fas fa-boxes mr-3"></i>
+                            Inventory
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.bookings.index') }}" 
+                         class="sidebar-item {{ request()->routeIs('admin.bookings.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
+                            <i class="fas fa-calendar-check mr-3"></i>
+                            Current Bookings
+                        </a>
+                    </li>
+                    <li>
+                          <a href="{{ route('admin.reports.index') }}" 
+                           class="sidebar-item {{ request()->routeIs('reports.bookings.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
+                            <i class="fas fa-chart-bar mr-3"></i>
+                            Reports & Analytics
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="absolute bottom-0 w-full p-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
+                          Ad
+                        </div>
+                        <div class="ml-3">
+                            <p class="font-semibold">Admin</p>
+                            <p class="text-sm text-gray-500">Administrator</p>
+                        </div>
+                    </div>
+                 
+                    <button id="mobileLogout" class="md:hidden text-gray-500 hover:text-eco-dark">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+        
 
     <main class="flex-1 ml-0 md:ml-64 p-6">
         <header class="mb-8">
