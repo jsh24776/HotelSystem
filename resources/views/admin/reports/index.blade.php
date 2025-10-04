@@ -212,17 +212,14 @@
                             <p class="text-sm text-gray-500">ADM Role</p>
                         </div>
                     </div>
-                    <!-- Mobile Logout Button -->
-                    <button id="mobileLogout" class="md:hidden text-gray-500 hover:text-eco-dark">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
+                
                 </div>
             </div>
         </aside>
         
-        <!-- Main Content -->
+
         <main class="flex-1 ml-0 md:ml-64 p-6">
-            <!-- Header -->
+       
             <header class="mb-8">
                 <div class="flex justify-between items-center">
                     <div>
@@ -266,7 +263,7 @@
                 </div>
             </header>
             
-            <!-- Date Range Selector -->
+            
             <div class="bg-white rounded-xl shadow-md p-6 mb-8">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                     <h2 class="text-xl font-bold text-eco-dark mb-4 md:mb-0">Report Period</h2>
@@ -580,7 +577,7 @@
         </div>
     </div>
 
-    <!-- Logout Confirmation Modal -->
+
     <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="flex items-center mb-4">
@@ -665,7 +662,7 @@
             e.stopPropagation();
         });
         
-        // Modal controls
+
         logoutBtn.addEventListener('click', function() {
             logoutModal.classList.remove('hidden');
         });
@@ -675,12 +672,12 @@
         });
         
         confirmLogout.addEventListener('click', function() {
-            // In a real app, this would redirect to logout
+
             alert('Logout functionality would be implemented here');
             logoutModal.classList.add('hidden');
         });
         
-        // Close modals when clicking outside
+
         [exportModal, logoutModal].forEach(modal => {
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
@@ -689,7 +686,7 @@
             });
         });
 
-        // Function to render reservations table
+    
         function renderReservationsTable() {
             reservationsTableBody.innerHTML = '';
             

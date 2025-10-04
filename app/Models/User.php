@@ -50,13 +50,24 @@ class User extends Authenticatable
             'is_archived' => 'boolean',
         ];
     }
+     public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+  
+    public function isGuest()
+    {
+        return $this->role === 'user';
+    }
+
 
      public function scopeActive($query)
     {
         return $query->where('is_archived', false);
     }
 
-    // Scope for archived users
+
     public function scopeArchived($query)
     {
         return $query->where('is_archived', true);

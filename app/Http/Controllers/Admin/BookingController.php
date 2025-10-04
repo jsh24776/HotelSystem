@@ -3,65 +3,55 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Room;
 use App\Models\User;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class BookingController extends Controller
 {
-    public function index() {
-        $users = User::all();
-        return view('admin.bookings.index', compact('users'));
-    }
-
-    public function create() {
-        return view('admin.users.create');
+    public function index()
+    {
+     
+        $rooms = Room::where('status', 'Available')->get();
+        return view('admin.bookings.index', compact('rooms'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'phone' => 'nullable|string',
-            'password' => 'required|min:8',
-            'role' => 'required|in:admin,user',
+
+        $request->validate([
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|email',
+            'phone'         => 'nullable|string|max:20',
+            'room_id'       => 'required|exists:rooms,id',
+            'check_in_date' => 'required|date',
+            'check_out_date'=> 'required|date|after_or_equal:check_in_date',
         ]);
 
-        $validated['password'] = bcrypt($validated['password']);
-        
-        User::create($validated);
 
-        return redirect()->route('admin.users.index')
-            ->with('success', 'User created successfully.');
-    }
+        $user = User::firstOrCreate(
+            ['email' => $request->email],
+            [
+                'fullname' => $request->name,
+                'username' => strtolower(str_replace(' ', '', $request->name)),
+                'password' => bcrypt('password'), 
+                'role'     => 'user',
+            ]
+        );
 
-    public function edit($id) {
-        $user = User::findOrFail($id);
-        return view('admin.users.edit', compact('user')); 
-    }
-
-    public function update(Request $request, User $user)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string',
-            'role' => 'required|in:admin,user',
-            'status' => 'required|in:active,inactive',
+       
+        Reservation::create([
+            'user_id'        => $user->id,
+            'room_id'        => $request->room_id,
+            'check_in_date'  => $request->check_in_date,
+            'check_out_date' => $request->check_out_date,
+            'total_amount'   => 0, 
+            'status'         => 'Confirmed',
         ]);
 
-        $user->update($validated);
+        Room::where('id', $request->room_id)->update(['status' => 'Occupied']);
 
-        return redirect()->route('admin.users.index')
-            ->with('success', 'User updated successfully.');
-    }
-
-    public function destroy(User $user)
-    {
-        $user->delete();
-
-        return redirect()->route('admin.users.index')
-            ->with('success', 'User deleted successfully.');
+        return redirect()->back()->with('success', 'Booking successfully created.');
     }
 }

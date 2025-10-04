@@ -10,15 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {  Schema::create('rooms', function (Blueprint $table) {
+    {
+        Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('room_number')->unique();
-            $table->string('type');
-            $table->decimal('rate', 10, 2);
+            $table->string('room_type');
             $table->integer('capacity');
-            $table->enum('status', ['available', 'occupied', 'reserved', 'dirty', 'out-of-service'])->default('available');
-            $table->json('amenities')->nullable();
-            $table->text('description')->nullable();
+            $table->decimal('price_per_night', 10, 2);
+            $table->enum('status', ['Available', 'Occupied', 'Dirty', 'Out-of-Service'])->default('Available');
             $table->timestamps();
         });
     }

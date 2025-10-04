@@ -196,14 +196,14 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
-                            FD
+                          AD
                         </div>
                         <div class="ml-3">
-                            <p class="font-semibold">Front Desk</p>
-                            <p class="text-sm text-gray-500">FD Role</p>
+                            <p class="font-semibold">Admin</p>
+                            <p class="text-sm text-gray-500">AD</p>
                         </div>
                     </div>
-                    <!-- Mobile Logout Button -->
+                
                     <button id="mobileLogout" class="md:hidden text-gray-500 hover:text-eco-dark">
                         <i class="fas fa-sign-out-alt"></i>
                     </button>
@@ -235,9 +235,9 @@
                         <div class="dropdown relative">
                             <button id="userDropdownToggle" class="flex items-center space-x-2 focus:outline-none">
                                 <div class="w-10 h-10 rounded-full bg-eco-light flex items-center justify-center text-eco-dark font-bold">
-                                    FD
+                                   AD
                                 </div>
-                                <span class="hidden md:block text-gray-700">Front Desk</span>
+                                <span class="hidden md:block text-gray-700">Admin</span>
                                 <i class="fas fa-chevron-down text-gray-500"></i>
                             </button>
                             
@@ -1095,7 +1095,7 @@ Jade Albercas</span>
                 }
             });
 
-            // Revenue Trend Chart
+         
             const revenueTrendCtx = document.getElementById('revenueTrendChart').getContext('2d');
             new Chart(revenueTrendCtx, {
                 type: 'line',
@@ -1136,7 +1136,7 @@ Jade Albercas</span>
             });
         }
 
-        // Initialize the UI
+
         renderInvoicesTable();
         renderPaymentsTable();
         initializeCharts();

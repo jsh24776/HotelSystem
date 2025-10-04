@@ -179,7 +179,7 @@
                             <p class="text-sm text-gray-500">Administrator</p>
                         </div>
                     </div>
-                    <!-- Mobile Logout Button -->
+                 
                     <button id="mobileLogout" class="md:hidden text-gray-500 hover:text-eco-dark">
                         <i class="fas fa-sign-out-alt"></i>
                     </button>
@@ -225,7 +225,7 @@
                                 <a href="/settings" class="block px-4 py-3 text-gray-700 hover:bg-eco-cream border-b border-gray-100">
                                     <i class="fas fa-cog mr-2"></i>Settings
                                 </a>
-                                <!-- Laravel Breeze Logout Form -->
+                        
                                 <form method="POST" action="{{ route('logout') }}" class="w-full">
                                     @csrf
                                     <button type="submit" class="w-full text-left px-4 py-3 text-gray-700 hover:bg-eco-cream flex items-center">
@@ -238,7 +238,6 @@
                 </div>
             </header>
             
-            <!-- User Management Content -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                     <h2 class="text-xl font-bold text-eco-dark">All Guests</h2>

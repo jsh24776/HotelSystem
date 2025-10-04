@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrokenShire Admin - Reservation & Booking Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -150,6 +151,56 @@
                 max-width: 300px;
             }
         }
+
+                    .status-available {
+                background-color: #d1fae5;
+                color: #065f46;
+            }
+
+            .status-occupied {
+                background-color: #fee2e2;
+                color: #991b1b;
+            }
+
+            .status-reserved {
+                background-color: #dbeafe;
+                color: #1e40af;
+            }
+
+            .status-dirty {
+                background-color: #fef3c7;
+                color: #92400e;
+            }
+
+            .status-out {
+                background-color: #e5e7eb;
+                color: #374151;
+            }
+
+            .reservation-confirmed {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.reservation-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.reservation-cancelled {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.reservation-checked-in {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.reservation-checked-out {
+    background-color: #e5e7eb;
+    color: #374151;
+}
     </style>
 </head>
 <body class="bg-eco-cream text-gray-800">
@@ -452,7 +503,7 @@
         </main>
     </div>
 
-    <!-- Create Reservation Modal -->
+
     <div id="createReservationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
@@ -462,96 +513,96 @@
                 </button>
             </div>
             
-            <form id="createReservationForm">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-gray-700 mb-2">Guest Name</label>
-                        <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
-                            <option value="">Select Guest</option>
-                            <option value="john">John Smith</option>
-                            <option value="jane">Jane Doe</option>
-                            <option value="mike">Mike Johnson</option>
-                            <option value="sarah">Sarah Williams</option>
-                            <option value="new">+ Add New Customer</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 mb-2">Room Type</label>
-                        <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
-                            <option value="">Select Room Type</option>
-                            <option value="single">Single</option>
-                            <option value="double">Double</option>
-                            <option value="suite">Suite</option>
-                            <option value="deluxe">Deluxe</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 mb-2">Check-In Date</label>
-                        <input type="date" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" value="2023-05-20">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 mb-2">Check-Out Date</label>
-                        <input type="date" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" value="2023-05-23">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 mb-2">Number of Guests</label>
-                        <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
-                            <option value="1">1 Guest</option>
-                            <option value="2" selected>2 Guests</option>
-                            <option value="3">3 Guests</option>
-                            <option value="4">4 Guests</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 mb-2">Room Number</label>
-                        <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
-                            <option value="">Auto-assign</option>
-                            <option value="101">101 (Single)</option>
-                            <option value="102">102 (Double)</option>
-                            <option value="201">201 (Suite)</option>
-                            <option value="202">202 (Deluxe)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="md:col-span-2">
-                        <label class="block text-gray-700 mb-2">Special Requests</label>
-                        <textarea class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" rows="3" placeholder="Any special requests or notes..."></textarea>
-                    </div>
-                </div>
-                
-            
-                <div class="mt-6 border rounded-lg p-4">
-                    <h4 class="text-lg font-medium text-eco-dark mb-3">Price Summary</h4>
-                    <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <span>Room Rate (3 nights)</span>
-                            <span>₱697.00</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Tax (10%)</span>
-                            <span>₱59.70</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Service Fee</span>
-                            <span>₱25.00</span>
-                        </div>
-                        <div class="flex justify-between pt-2 border-t font-bold">
-                            <span>Total</span>
-                            <span class="text-eco-dark">1,981.70</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex justify-end space-x-3 mt-6">
-                    <button type="button" id="cancelCreateReservation" class="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors">Create Reservation</button>
-                </div>
-            </form>
+          <form id="createReservationForm" action="{{ route('admin.reservations.store') }}" method="POST" class="space-y-6">
+    @csrf
+    
+
+    <div>
+        <h4 class="text-lg font-semibold text-eco-dark mb-3">Guest Information</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-gray-700 mb-2">Full Name *</label>
+                <input type="text" name="guest_name" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" 
+                       placeholder="e.g. Gabriel Joshua Regidor">
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Email *</label>
+                <input type="email" name="email" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" 
+                       placeholder="e.g. example@email.com">
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Phone Number *</label>
+                <input type="text" name="phone" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" 
+                       placeholder="e.g. 09123456789">
+            </div>
+        </div>
+    </div>
+
+    <!-- Reservation Details -->
+    <div>
+        <h4 class="text-lg font-semibold text-eco-dark mb-3">Reservation Details</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-gray-700 mb-2">Room Type *</label>
+                <select name="room_id" required
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                    <option value="">Select Room</option>
+                    @foreach ($rooms as $room)
+                        <option value="{{ $room->id }}">
+                            {{ $room->room_number }} - {{ $room->room_type }} (₱{{ $room->price_per_night }})
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Number of Guests *</label>
+                <input type="number" name="guest_count" min="1" max="10" value="1" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Check-In Date *</label>
+                <input type="date" name="check_in_date" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent"
+                       min="{{ date('Y-m-d') }}">
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Check-Out Date *</label>
+                <input type="date" name="check_out_date" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent"
+                       min="{{ date('Y-m-d', strtotime('+1 day')) }}">
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Total Amount *</label>
+                <input type="number" name="total_amount" step="0.01" placeholder="e.g. 1981.70" required
+                       class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Payment Method *</label>
+                <select name="payment_method" required
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                    <option value="Cash">Cash</option>
+                    <option value="PayPal">PayPal</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-end space-x-3 mt-6">
+        <button type="button" id="cancelCreateReservation" 
+                class="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+            Cancel
+        </button>
+        <button type="submit" 
+                class="px-4 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors">
+            Create Reservation
+        </button>
+    </div>
+</form>
+
+
         </div>
     </div>
 
@@ -756,7 +807,7 @@
         </div>
     </div>
 
-    <!-- Payment Success Modal -->
+
     <div id="paymentSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 text-center">
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -787,7 +838,7 @@
         </div>
     </div>
 
-    <!-- Logout Confirmation Modal -->
+  
     <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="flex items-center mb-4">
@@ -809,583 +860,751 @@
     </div>
 
     <script>
-        // Sample data
-        const sampleReservations = [
-            { id: 1, reservationId: "RES-001", guest: "John Smith", room: "201 (Suite)", checkIn: "2023-05-20", checkOut: "2023-05-23", status: "confirmed", amount: 681.70 },
-            { id: 2, reservationId: "RES-002", guest: "Jane Doe", room: "102 (Double)", checkIn: "2023-05-18", checkOut: "2023-05-21", status: "checked-in", amount: 452.50 },
-            { id: 3, reservationId: "RES-003", guest: "Mike Johnson", room: "101 (Single)", checkIn: "2023-05-19", checkOut: "2023-05-22", status: "pending", amount: 267.80 },
-            { id: 4, reservationId: "RES-004", guest: "Sarah Williams", room: "202 (Deluxe)", checkIn: "2023-05-15", checkOut: "2023-05-18", status: "checked-out", amount: 894.25 },
-            { id: 5, reservationId: "RES-005", guest: "Robert Brown", room: "301 (Suite)", checkIn: "2023-05-22", checkOut: "2023-05-25", status: "confirmed", amount: 1024.90 }
-        ];
+ 
+    const reservationsTableBody = document.getElementById('reservationsTableBody');
+    const roomCardsContainer = document.getElementById('roomCardsContainer');
+    const customersTableBody = document.getElementById('customersTableBody');
+    
+    const createReservationModal = document.getElementById('createReservationModal');
+    const customerManagementModal = document.getElementById('customerManagementModal');
+    const invoicePreviewModal = document.getElementById('invoicePreviewModal');
+    const paymentProcessingModal = document.getElementById('paymentProcessingModal');
+    const paymentSuccessModal = document.getElementById('paymentSuccessModal');
+    const logoutModal = document.getElementById('logoutModal');
+    
+    const createReservationBtn = document.getElementById('createReservationBtn');
+    const manageCustomersBtn = document.getElementById('manageCustomersBtn');
+    const checkAvailabilityBtn = document.getElementById('checkAvailabilityBtn');
+    const generateInvoiceBtn = document.getElementById('generateInvoiceBtn');
+    
+    const closeCreateReservationModal = document.getElementById('closeCreateReservationModal');
+    const cancelCreateReservation = document.getElementById('cancelCreateReservation');
+    const closeCustomerManagementModal = document.getElementById('closeCustomerManagementModal');
+    const closeInvoicePreviewModal = document.getElementById('closeInvoicePreviewModal');
+    const cancelInvoice = document.getElementById('cancelInvoice');
+    const printInvoice = document.getElementById('printInvoice');
+    const processPayment = document.getElementById('processPayment');
+    const closePaymentProcessingModal = document.getElementById('closePaymentProcessingModal');
+    const cancelPayment = document.getElementById('cancelPayment');
+    const cashPaymentBtn = document.getElementById('cashPaymentBtn');
+    const onlinePaymentBtn = document.getElementById('onlinePaymentBtn');
+    const confirmPayment = document.getElementById('confirmPayment');
+    const proceedOnlinePayment = document.getElementById('proceedOnlinePayment');
+    const closeSuccessModal = document.getElementById('closeSuccessModal');
+    const viewReceipt = document.getElementById('viewReceipt');
+    const cancelLogout = document.getElementById('cancelLogout');
+    const confirmLogout = document.getElementById('confirmLogout');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    const createReservationForm = document.getElementById('createReservationForm');
+    const cashPaymentSection = document.getElementById('cashPaymentSection');
+    const onlinePaymentSection = document.getElementById('onlinePaymentSection');
 
-        const sampleRooms = [
-            { id: 1, number: "101", type: "Single", amenities: ["WiFi", "TV", "AC"], rate: 89.99, status: "available" },
-            { id: 2, number: "102", type: "Double", amenities: ["WiFi", "TV", "AC", "Balcony"], rate: 119.99, status: "occupied" },
-            { id: 3, number: "103", type: "Single", amenities: ["WiFi", "TV", "AC"], rate: 89.99, status: "available" },
-            { id: 4, number: "104", type: "Double", amenities: ["WiFi", "TV", "AC", "Ocean View"], rate: 129.99, status: "reserved" },
-            { id: 5, number: "201", type: "Suite", amenities: ["WiFi", "TV", "AC", "Mini Bar", "Jacuzzi"], rate: 199.99, status: "reserved" },
-            { id: 6, number: "202", type: "Deluxe", amenities: ["WiFi", "TV", "AC", "Mini Bar", "Balcony", "Ocean View"], rate: 159.99, status: "dirty" },
-            { id: 7, number: "203", type: "Suite", amenities: ["WiFi", "TV", "AC", "Mini Bar", "Jacuzzi", "Ocean View"], rate: 229.99, status: "available" },
-            { id: 8, number: "301", type: "Single", amenities: ["WiFi", "TV", "AC"], rate: 89.99, status: "out" }
-        ];
+    // Mobile menu toggle
+    document.getElementById('menuToggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('active');
+    });
+    
+    document.getElementById('overlay').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.remove('open');
+        this.classList.remove('active');
+    });
+    
+    // User dropdown
+    const dropdownToggle = document.getElementById('userDropdownToggle');
+    const dropdown = dropdownToggle.closest('.dropdown');
+    
+    dropdownToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+    });
+    
+    document.addEventListener('click', function() {
+        dropdown.classList.remove('open');
+    });
 
-        const sampleCustomers = [
-            { id: 1, customerId: "CUST-001", name: "John Smith", email: "john.smith@email.com", phone: "(555) 123-4567", reservations: 3 },
-            { id: 2, customerId: "CUST-002", name: "Jane Doe", email: "jane.doe@email.com", phone: "(555) 234-5678", reservations: 5 },
-            { id: 3, customerId: "CUST-003", name: "Mike Johnson", email: "mike.johnson@email.com", phone: "(555) 345-6789", reservations: 2 },
-            { id: 4, customerId: "CUST-004", name: "Sarah Williams", email: "sarah.williams@email.com", phone: "(555) 456-7890", reservations: 7 },
-            { id: 5, customerId: "CUST-005", name: "Robert Brown", email: "robert.brown@email.com", phone: "(555) 567-8901", reservations: 4 }
-        ];
-
-      
-        let reservations = [...sampleReservations];
-        let rooms = [...sampleRooms];
-        let customers = [...sampleCustomers];
-
-        const reservationsTableBody = document.getElementById('reservationsTableBody');
-        const roomCardsContainer = document.getElementById('roomCardsContainer');
-        const customersTableBody = document.getElementById('customersTableBody');
-        
-        const createReservationModal = document.getElementById('createReservationModal');
-        const customerManagementModal = document.getElementById('customerManagementModal');
-        const invoicePreviewModal = document.getElementById('invoicePreviewModal');
-        const paymentProcessingModal = document.getElementById('paymentProcessingModal');
-        const paymentSuccessModal = document.getElementById('paymentSuccessModal');
-        const logoutModal = document.getElementById('logoutModal');
-        
-        const createReservationBtn = document.getElementById('createReservationBtn');
-        const manageCustomersBtn = document.getElementById('manageCustomersBtn');
-        const checkAvailabilityBtn = document.getElementById('checkAvailabilityBtn');
-        const generateInvoiceBtn = document.getElementById('generateInvoiceBtn');
-        
-        const closeCreateReservationModal = document.getElementById('closeCreateReservationModal');
-        const cancelCreateReservation = document.getElementById('cancelCreateReservation');
-        const closeCustomerManagementModal = document.getElementById('closeCustomerManagementModal');
-        const closeInvoicePreviewModal = document.getElementById('closeInvoicePreviewModal');
-        const cancelInvoice = document.getElementById('cancelInvoice');
-        const printInvoice = document.getElementById('printInvoice');
-        const processPayment = document.getElementById('processPayment');
-        const closePaymentProcessingModal = document.getElementById('closePaymentProcessingModal');
-        const cancelPayment = document.getElementById('cancelPayment');
-        const cashPaymentBtn = document.getElementById('cashPaymentBtn');
-        const onlinePaymentBtn = document.getElementById('onlinePaymentBtn');
-        const confirmPayment = document.getElementById('confirmPayment');
-        const proceedOnlinePayment = document.getElementById('proceedOnlinePayment');
-        const closeSuccessModal = document.getElementById('closeSuccessModal');
-        const viewReceipt = document.getElementById('viewReceipt');
-        const cancelLogout = document.getElementById('cancelLogout');
-        const confirmLogout = document.getElementById('confirmLogout');
-        const logoutBtn = document.getElementById('logoutBtn');
-        
-        const createReservationForm = document.getElementById('createReservationForm');
-        const cashPaymentSection = document.getElementById('cashPaymentSection');
-        const onlinePaymentSection = document.getElementById('onlinePaymentSection');
-
+    document.addEventListener('DOMContentLoaded', () => {
+    fetchReservations();
+    fetchRooms();
+    initializeCharts();
+    
   
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('active');
-        });
-        
-        document.getElementById('overlay').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.remove('open');
-            this.classList.remove('active');
-        });
-        
-  
-        const dropdownToggle = document.getElementById('userDropdownToggle');
-        const dropdown = dropdownToggle.closest('.dropdown');
-        
-        dropdownToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdown.classList.toggle('open');
-        });
-        
-        document.addEventListener('click', function() {
-            dropdown.classList.remove('open');
-        });
-        
-        dropdown.querySelector('.dropdown-content').addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-        
-        // Modal controls
-        createReservationBtn.addEventListener('click', function() {
-            createReservationModal.classList.remove('hidden');
-        });
-        
-        manageCustomersBtn.addEventListener('click', function() {
-            customerManagementModal.classList.remove('hidden');
-            renderCustomersTable();
-        });
-        
-        checkAvailabilityBtn.addEventListener('click', function() {
-            alert('Room availability dashboard would open here');
-        });
-        
-        generateInvoiceBtn.addEventListener('click', function() {
-            invoicePreviewModal.classList.remove('hidden');
-        });
-        
-        logoutBtn.addEventListener('click', function() {
-            logoutModal.classList.remove('hidden');
-        });
-        
-        closeCreateReservationModal.addEventListener('click', function() {
-            createReservationModal.classList.add('hidden');
-        });
-        
-        cancelCreateReservation.addEventListener('click', function() {
-            createReservationModal.classList.add('hidden');
-        });
-        
-        closeCustomerManagementModal.addEventListener('click', function() {
-            customerManagementModal.classList.add('hidden');
-        });
-        
-        closeInvoicePreviewModal.addEventListener('click', function() {
-            invoicePreviewModal.classList.add('hidden');
-        });
-        
-        cancelInvoice.addEventListener('click', function() {
-            invoicePreviewModal.classList.add('hidden');
-        });
-        
-        printInvoice.addEventListener('click', function() {
-            alert('Invoice would be printed here');
-        });
-        
-        processPayment.addEventListener('click', function() {
-            invoicePreviewModal.classList.add('hidden');
-            paymentProcessingModal.classList.remove('hidden');
-        });
-        
-        closePaymentProcessingModal.addEventListener('click', function() {
-            paymentProcessingModal.classList.add('hidden');
-            resetPaymentSections();
-        });
-        
-        cancelPayment.addEventListener('click', function() {
-            paymentProcessingModal.classList.add('hidden');
-            resetPaymentSections();
-        });
-        
-        cashPaymentBtn.addEventListener('click', function() {
-            cashPaymentSection.classList.remove('hidden');
-            onlinePaymentSection.classList.add('hidden');
-            confirmPayment.classList.remove('hidden');
-            proceedOnlinePayment.classList.add('hidden');
-        });
-        
-        onlinePaymentBtn.addEventListener('click', function() {
-            onlinePaymentSection.classList.remove('hidden');
-            cashPaymentSection.classList.add('hidden');
-            proceedOnlinePayment.classList.remove('hidden');
-            confirmPayment.classList.add('hidden');
-        });
-        
-        confirmPayment.addEventListener('click', function() {
-            paymentProcessingModal.classList.add('hidden');
-            paymentSuccessModal.classList.remove('hidden');
-            resetPaymentSections();
-        });
-        
-        proceedOnlinePayment.addEventListener('click', function() {
-            paymentProcessingModal.classList.add('hidden');
-            paymentSuccessModal.classList.remove('hidden');
-            resetPaymentSections();
-        });
-        
-        closeSuccessModal.addEventListener('click', function() {
-            paymentSuccessModal.classList.add('hidden');
-        });
-        
-        viewReceipt.addEventListener('click', function() {
-            paymentSuccessModal.classList.add('hidden');
-            alert('Receipt viewer would open here');
-        });
-        
-        cancelLogout.addEventListener('click', function() {
-            logoutModal.classList.add('hidden');
-        });
-        
-        confirmLogout.addEventListener('click', function() {
-            // In a real app, this would redirect to logout
-            alert('Logout functionality would be implemented here');
-            logoutModal.classList.add('hidden');
-        });
-        
-        // Close modals when clicking outside
-        [createReservationModal, customerManagementModal, invoicePreviewModal, paymentProcessingModal, paymentSuccessModal, logoutModal].forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                    if (modal === paymentProcessingModal) {
-                        resetPaymentSections();
-                    }
+    setInterval(() => {
+        fetchReservations();
+        fetchRooms();
+    }, 30000);
+});
+    
+    dropdown.querySelector('.dropdown-content').addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    // Modal controls
+    createReservationBtn.addEventListener('click', function() {
+        createReservationModal.classList.remove('hidden');
+    });
+    
+    manageCustomersBtn.addEventListener('click', function() {
+        customerManagementModal.classList.remove('hidden');
+        fetchCustomers();
+    });
+    
+    checkAvailabilityBtn.addEventListener('click', function() {
+        alert('Room availability dashboard would open here');
+    });
+    
+    generateInvoiceBtn.addEventListener('click', function() {
+        invoicePreviewModal.classList.remove('hidden');
+    });
+    
+    logoutBtn.addEventListener('click', function() {
+        logoutModal.classList.remove('hidden');
+    });
+    
+    closeCreateReservationModal.addEventListener('click', function() {
+        createReservationModal.classList.add('hidden');
+    });
+    
+    cancelCreateReservation.addEventListener('click', function() {
+        createReservationModal.classList.add('hidden');
+    });
+    
+    closeCustomerManagementModal.addEventListener('click', function() {
+        customerManagementModal.classList.add('hidden');
+    });
+    
+    closeInvoicePreviewModal.addEventListener('click', function() {
+        invoicePreviewModal.classList.add('hidden');
+    });
+    
+    cancelInvoice.addEventListener('click', function() {
+        invoicePreviewModal.classList.add('hidden');
+    });
+    
+    printInvoice.addEventListener('click', function() {
+        alert('Invoice would be printed here');
+    });
+    
+    processPayment.addEventListener('click', function() {
+        invoicePreviewModal.classList.add('hidden');
+        paymentProcessingModal.classList.remove('hidden');
+    });
+    
+    closePaymentProcessingModal.addEventListener('click', function() {
+        paymentProcessingModal.classList.add('hidden');
+        resetPaymentSections();
+    });
+    
+    cancelPayment.addEventListener('click', function() {
+        paymentProcessingModal.classList.add('hidden');
+        resetPaymentSections();
+    });
+    
+    cashPaymentBtn.addEventListener('click', function() {
+        cashPaymentSection.classList.remove('hidden');
+        onlinePaymentSection.classList.add('hidden');
+        confirmPayment.classList.remove('hidden');
+        proceedOnlinePayment.classList.add('hidden');
+    });
+    
+    onlinePaymentBtn.addEventListener('click', function() {
+        onlinePaymentSection.classList.remove('hidden');
+        cashPaymentSection.classList.add('hidden');
+        proceedOnlinePayment.classList.remove('hidden');
+        confirmPayment.classList.add('hidden');
+    });
+    
+    confirmPayment.addEventListener('click', function() {
+        paymentProcessingModal.classList.add('hidden');
+        paymentSuccessModal.classList.remove('hidden');
+        resetPaymentSections();
+    });
+    
+    proceedOnlinePayment.addEventListener('click', function() {
+        paymentProcessingModal.classList.add('hidden');
+        paymentSuccessModal.classList.remove('hidden');
+        resetPaymentSections();
+    });
+    
+    closeSuccessModal.addEventListener('click', function() {
+        paymentSuccessModal.classList.add('hidden');
+    });
+    
+    viewReceipt.addEventListener('click', function() {
+        paymentSuccessModal.classList.add('hidden');
+        alert('Receipt viewer would open here');
+    });
+    
+    cancelLogout.addEventListener('click', function() {
+        logoutModal.classList.add('hidden');
+    });
+    
+    confirmLogout.addEventListener('click', function() {
+        // Logout functionality would be implemented here
+        alert('Logout functionality would be implemented here');
+        logoutModal.classList.add('hidden');
+    });
+    
+    // Close modals when clicking outside
+    [createReservationModal, customerManagementModal, invoicePreviewModal, paymentProcessingModal, paymentSuccessModal, logoutModal].forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                if (modal === paymentProcessingModal) {
+                    resetPaymentSections();
                 }
-            });
-        });
-
-        // Form submissions
-        createReservationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Reservation created successfully! (This is a frontend demo - no actual data saved)');
-            createReservationModal.classList.add('hidden');
-            createReservationForm.reset();
-        });
-
-        // Function to reset payment sections
-        function resetPaymentSections() {
-            cashPaymentSection.classList.add('hidden');
-            onlinePaymentSection.classList.add('hidden');
-            confirmPayment.classList.add('hidden');
-            proceedOnlinePayment.classList.add('hidden');
-        }
-
-        // Function to render reservations table
-        function renderReservationsTable() {
-            reservationsTableBody.innerHTML = '';
-            
-            reservations.forEach(reservation => {
-                const statusClass = `reservation-${reservation.status}`;
-                const statusText = reservation.status.charAt(0).toUpperCase() + reservation.status.slice(1).replace('-', ' ');
-                
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-eco-cream transition-colors';
-                row.innerHTML = `
-                    <td class="py-4 px-6 font-medium">${reservation.reservationId}</td>
-                    <td class="py-4 px-6">${reservation.guest}</td>
-                    <td class="py-4 px-6">${reservation.room}</td>
-                    <td class="py-4 px-6">${reservation.checkIn}</td>
-                    <td class="py-4 px-6">${reservation.checkOut}</td>
-                    <td class="py-4 px-6">
-                        <span class="px-3 py-1 rounded-full text-xs font-medium ${statusClass}">${statusText}</span>
-                    </td>
-                    <td class="py-4 px-6 font-bold">₱${reservation.amount}</td>
-                    <td class="py-4 px-6">
-                        <div class="flex space-x-2">
-                            <button class="text-eco-accent hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors view-reservation-btn" data-reservation-id="${reservation.id}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="text-eco-primary hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors edit-reservation-btn" data-reservation-id="${reservation.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition-colors invoice-btn" data-reservation-id="${reservation.id}">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                reservationsTableBody.appendChild(row);
-            });
-            
-            // Add event listeners to reservation buttons
-            document.querySelectorAll('.view-reservation-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const reservationId = parseInt(this.getAttribute('data-reservation-id'));
-                    viewReservation(reservationId);
-                });
-            });
-            
-            document.querySelectorAll('.edit-reservation-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const reservationId = parseInt(this.getAttribute('data-reservation-id'));
-                    editReservation(reservationId);
-                });
-            });
-            
-            document.querySelectorAll('.invoice-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const reservationId = parseInt(this.getAttribute('data-reservation-id'));
-                    generateInvoice(reservationId);
-                });
-            });
-        }
-
-        // Function to render room cards
-        function renderRoomCards() {
-            roomCardsContainer.innerHTML = '';
-            
-            rooms.forEach(room => {
-                const statusClass = `status-${room.status}`;
-                const statusText = room.status.charAt(0).toUpperCase() + room.status.slice(1);
-                
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-lg shadow-md p-4 border-l-4';
-                
-                // Set border color based on status
-                if (room.status === 'available') card.classList.add('border-green-500');
-                else if (room.status === 'occupied') card.classList.add('border-red-500');
-                else if (room.status === 'reserved') card.classList.add('border-blue-500');
-                else if (room.status === 'dirty') card.classList.add('border-yellow-500');
-                else card.classList.add('border-gray-400');
-                
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-lg">Room ${room.number}</h3>
-                        <span class="px-2 py-1 rounded-full text-xs font-medium ${statusClass}">${statusText}</span>
-                    </div>
-                    <p class="text-gray-600 text-sm mb-2">${room.type}</p>
-                    <p class="text-eco-dark font-bold mb-3">₱${room.rate}/night</p>
-                    <div class="flex flex-wrap gap-1 mb-4">
-                        ${room.amenities.map(amenity => 
-                            `<span class="bg-eco-cream text-eco-dark text-xs px-2 py-1 rounded">${amenity}</span>`
-                        ).join('')}
-                    </div>
-                    <div class="flex justify-between">
-                        <button class="text-eco-accent hover:text-eco-dark text-sm flex items-center update-status-btn" data-room-id="${room.id}">
-                            <i class="fas fa-edit mr-1"></i> Update Status
-                        </button>
-                        <button class="text-eco-primary hover:text-eco-dark text-sm flex items-center book-room-btn" data-room-id="${room.id}">
-                            <i class="fas fa-calendar-plus mr-1"></i> Book
-                        </button>
-                    </div>
-                `;
-                
-                roomCardsContainer.appendChild(card);
-            });
-            
-            // Add event listeners to update status buttons
-            document.querySelectorAll('.update-status-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const roomId = parseInt(this.getAttribute('data-room-id'));
-                    updateRoomStatus(roomId);
-                });
-            });
-            
-            // Add event listeners to book room buttons
-            document.querySelectorAll('.book-room-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const roomId = parseInt(this.getAttribute('data-room-id'));
-                    bookRoom(roomId);
-                });
-            });
-        }
-
-        // Function to render customers table
-        function renderCustomersTable() {
-            customersTableBody.innerHTML = '';
-            
-            customers.forEach(customer => {
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-eco-cream transition-colors';
-                row.innerHTML = `
-                    <td class="py-4 px-6 font-medium">${customer.customerId}</td>
-                    <td class="py-4 px-6">${customer.name}</td>
-                    <td class="py-4 px-6">${customer.email}</td>
-                    <td class="py-4 px-6">${customer.phone}</td>
-                    <td class="py-4 px-6">
-                        <span class="px-3 py-1 rounded-full text-xs font-medium bg-eco-light text-eco-dark">${customer.reservations} bookings</span>
-                    </td>
-                    <td class="py-4 px-6">
-                        <div class="flex space-x-2">
-                            <button class="text-eco-accent hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors view-customer-btn" data-customer-id="${customer.id}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="text-eco-primary hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors edit-customer-btn" data-customer-id="${customer.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition-colors book-customer-btn" data-customer-id="${customer.id}">
-                                <i class="fas fa-calendar-plus"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                customersTableBody.appendChild(row);
-            });
-            
-            // Add event listeners to customer buttons
-            document.querySelectorAll('.view-customer-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const customerId = parseInt(this.getAttribute('data-customer-id'));
-                    viewCustomer(customerId);
-                });
-            });
-            
-            document.querySelectorAll('.edit-customer-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const customerId = parseInt(this.getAttribute('data-customer-id'));
-                    editCustomer(customerId);
-                });
-            });
-            
-            document.querySelectorAll('.book-customer-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const customerId = parseInt(this.getAttribute('data-customer-id'));
-                    bookForCustomer(customerId);
-                });
-            });
-        }
-
-        // Function to view reservation details
-        function viewReservation(reservationId) {
-            const reservation = reservations.find(r => r.id === reservationId);
-            if (!reservation) return;
-            
-            alert(`Reservation Details:\n\nID: ${reservation.reservationId}\nGuest: ${reservation.guest}\nRoom: ${reservation.room}\nCheck-In: ${reservation.checkIn}\nCheck-Out: ${reservation.checkOut}\nStatus: ${reservation.status}\nAmount: $${reservation.amount}`);
-        }
-
-        // Function to edit reservation
-        function editReservation(reservationId) {
-            const reservation = reservations.find(r => r.id === reservationId);
-            if (!reservation) return;
-            
-            alert(`Edit reservation ${reservation.reservationId} functionality would open here`);
-        }
-
-        // Function to generate invoice
-        function generateInvoice(reservationId) {
-            const reservation = reservations.find(r => r.id === reservationId);
-            if (!reservation) return;
-            
-            invoicePreviewModal.classList.remove('hidden');
-        }
-
-        // Function to update room status
-        function updateRoomStatus(roomId) {
-            const room = rooms.find(r => r.id === roomId);
-            if (!room) return;
-            
-            const newStatus = prompt(`Update status for Room ${room.number}:\n\nCurrent: ${room.status}\n\nEnter new status (available, occupied, reserved, dirty, out):`, room.status);
-            
-            if (newStatus && ['available', 'occupied', 'reserved', 'dirty', 'out'].includes(newStatus.toLowerCase())) {
-                room.status = newStatus.toLowerCase();
-                
-                // Re-render the UI
-                renderRoomCards();
-                
-                alert(`Room ${room.number} status updated to ${newStatus}`);
-            } else if (newStatus) {
-                alert('Invalid status. Please use: available, occupied, reserved, dirty, or out');
             }
-        }
-
-        // Function to book room
-        function bookRoom(roomId) {
-            const room = rooms.find(r => r.id === roomId);
-            if (!room) return;
-            
-            if (room.status === 'available') {
-                createReservationModal.classList.remove('hidden');
-            } else {
-                alert(`Room ${room.number} is not available for booking. Current status: ${room.status}`);
-            }
-        }
-
-        // Function to view customer
-        function viewCustomer(customerId) {
-            const customer = customers.find(c => c.id === customerId);
-            if (!customer) return;
-            
-            alert(`Customer Details:\n\nID: ${customer.customerId}\nName: ${customer.name}\nEmail: ${customer.email}\nPhone: ${customer.phone}\nReservations: ${customer.reservations}`);
-        }
-
-        
-        function editCustomer(customerId) {
-            const customer = customers.find(c => c.id === customerId);
-            if (!customer) return;
-            
-            alert(`Edit customer ${customer.name} functionality would open here`);
-        }
-
-        function bookForCustomer(customerId) {
-            const customer = customers.find(c => c.id === customerId);
-            if (!customer) return;
-            
-            createReservationModal.classList.remove('hidden');
-        }
-
-        const searchInput = document.querySelector('input[type="text"]');
-        searchInput.addEventListener('keyup', function() {
-            const searchTerm = this.value.toLowerCase();
-            const filteredReservations = sampleReservations.filter(reservation => 
-                reservation.reservationId.toLowerCase().includes(searchTerm) || 
-                reservation.guest.toLowerCase().includes(searchTerm) ||
-                reservation.room.toLowerCase().includes(searchTerm)
-            );
-            
-            reservations = filteredReservations;
-            renderReservationsTable();
         });
+    });
+ 
+createReservationForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(createReservationForm);
+    
+ 
+    const formDataObj = Object.fromEntries(formData.entries());
+    console.log('Form data being sent:', formDataObj);
+    
+    try {
+        const response = await fetch(createReservationForm.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
+            },
+            body: formData
+        });
+
+        const result = await response.json();
+        console.log('Full response:', result);
+
+        if (!response.ok) {
+   
+            if (result.errors) {
+                let errorMessage = 'Please fix the following errors:\n';
+                for (const [field, errors] of Object.entries(result.errors)) {
+                    const fieldName = field.replace(/_/g, ' ');
+                    errorMessage += `• ${fieldName}: ${errors.join(', ')}\n`;
+                }
+                alert(errorMessage);
+                return;
+            }
+            throw new Error(result.message || 'Failed to create reservation');
+        }
+
+        console.log('Reservation saved:', result);
+        alert(' Reservation created successfully!');
+        createReservationModal.classList.add('hidden');
+        createReservationForm.reset();
+
+     
+        fetchReservations();
+        fetchRooms();
+
+    } catch (error) {
+        console.error('Request failed:', error);
+        alert('An error occurred while saving the reservation: ' + error.message);
+    }
+});
+   
+   
+    function resetPaymentSections() {
+        cashPaymentSection.classList.add('hidden');
+        onlinePaymentSection.classList.add('hidden');
+        confirmPayment.classList.add('hidden');
+        proceedOnlinePayment.classList.add('hidden');
+    }
 
    
-        function initializeCharts() {
-       
-            const reservationStatusCtx = document.getElementById('reservationStatusChart').getContext('2d');
-            new Chart(reservationStatusCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Confirmed', 'Checked-In', 'Pending', 'Checked-Out', 'Cancelled'],
-                    datasets: [{
-                        data: [35, 20, 15, 25, 5],
-                        backgroundColor: [
-                            '#4CAF50',
-                            '#2196F3',
-                            '#FF9800',
-                            '#9C27B0',
-                            '#F44336'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
+  function fetchReservations() {
+    console.log('Fetching reservations...');
+    
+    // Use the correct route - now it should be /admin/reservations/data
+    fetch('/admin/reservations/data')
+        .then(response => {
+            console.log('Response status:', response.status);
+            console.log('Response URL:', response.url);
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Reservations data received:', data);
+            renderReservationsTable(data);
+        })
+        .catch(error => {
+            console.error('Error fetching reservations:', error);
+            reservationsTableBody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="py-4 px-6 text-center text-gray-500">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+                        Unable to load reservations: ${error.message}
+                        <br><small>Trying to fetch from: /admin/reservations/data</small>
+                    </td>
+                </tr>
+            `;
+        });
+}
+  function renderReservationsTable(reservations) {
+    reservationsTableBody.innerHTML = '';
+    
+    if (!reservations || reservations.length === 0) {
+        reservationsTableBody.innerHTML = `
+            <tr>
+                <td colspan="8" class="py-8 px-6 text-center text-gray-500">
+                    <i class="fas fa-calendar-times text-eco-light text-2xl mb-2 block"></i>
+                    No reservations found
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    reservations.forEach(reservation => {
+        // Convert status to lowercase for CSS classes and handle different statuses
+        const statusLower = reservation.status.toLowerCase();
+        const statusClass = `reservation-${statusLower}`;
+        
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-eco-cream transition-colors';
+        row.innerHTML = `
+            <td class="py-4 px-6 font-medium">${reservation.reservation_id}</td>
+            <td class="py-4 px-6">
+                <div>
+                    <div class="font-medium">${reservation.guest_name}</div>
+                    <div class="text-sm text-gray-500">${reservation.email}</div>
+                    <div class="text-sm text-gray-500">${reservation.phone}</div>
+                    <div class="text-xs text-gray-400 mt-1">Guests: ${reservation.guest_count}</div>
+                </div>
+            </td>
+            <td class="py-4 px-6">
+                <div>
+                    <div class="font-medium">Room ${reservation.room_number}</div>
+                    <div class="text-sm text-gray-500">${reservation.room_type}</div>
+                </div>
+            </td>
+            <td class="py-4 px-6">
+                <div class="font-medium">${formatDate(reservation.check_in_date)}</div>
+                <div class="text-sm text-gray-500">in ${getDaysUntil(reservation.check_in_date)}</div>
+            </td>
+            <td class="py-4 px-6">
+                <div class="font-medium">${formatDate(reservation.check_out_date)}</div>
+                <div class="text-sm text-gray-500">${getStayDuration(reservation.check_in_date, reservation.check_out_date)}</div>
+            </td>
+            <td class="py-4 px-6">
+                <span class="px-3 py-1 rounded-full text-xs font-medium ${statusClass}">${reservation.status}</span>
+            </td>
+            <td class="py-4 px-6 font-bold text-eco-dark">₱${parseFloat(reservation.total_amount).toLocaleString()}</td>
+            <td class="py-4 px-6">
+                <div class="flex space-x-2">
+                    <button class="text-eco-accent hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors view-reservation-btn" data-reservation-id="${reservation.id}" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="text-eco-primary hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors edit-reservation-btn" data-reservation-id="${reservation.id}" title="Edit Reservation">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition-colors invoice-btn" data-reservation-id="${reservation.id}" title="Generate Invoice">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </button>
+                </div>
+            </td>
+        `;
+        
+        reservationsTableBody.appendChild(row);
+    });
+    
+    // Add event listeners to reservation buttons
+    addReservationEventListeners();
+}
+
+// Helper function to format dates
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+}
+
+// Helper function to calculate days until check-in
+function getDaysUntil(checkInDate) {
+    const today = new Date();
+    const checkIn = new Date(checkInDate);
+    const diffTime = checkIn - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Tomorrow';
+    if (diffDays > 1) return `${diffDays} days`;
+    if (diffDays < 0) return 'Past date';
+    return '';
+}
+
+function getStayDuration(checkIn, checkOut) {
+    const start = new Date(checkIn);
+    const end = new Date(checkOut);
+    const diffTime = end - start;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return `${diffDays} night${diffDays !== 1 ? 's' : ''}`;
+}
+
+function addReservationEventListeners() {
+    document.querySelectorAll('.view-reservation-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const reservationId = parseInt(this.getAttribute('data-reservation-id'));
+            viewReservation(reservationId);
+        });
+    });
+    
+    document.querySelectorAll('.edit-reservation-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const reservationId = parseInt(this.getAttribute('data-reservation-id'));
+            editReservation(reservationId);
+        });
+    });
+    
+    document.querySelectorAll('.invoice-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const reservationId = parseInt(this.getAttribute('data-reservation-id'));
+            generateInvoice(reservationId);
+        });
+    });
+}
+
+
+   function fetchRooms() {
+    fetch('/rooms') // Now this will work without admin prefix
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Rooms data received:', data);
+            renderRoomCards(data);
+        })
+        .catch(error => {
+            console.error('Error fetching rooms:', error);
+            roomCardsContainer.innerHTML = `
+                <div class="col-span-full text-center text-gray-500 py-8">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl mb-2"></i>
+                    <p>Unable to load rooms: ${error.message}</p>
+                    <button onclick="fetchRooms()" class="mt-2 text-eco-primary hover:text-eco-dark">Retry</button>
+                </div>
+            `;
+        });
+}
+
+function renderRoomCards(rooms) {
+    roomCardsContainer.innerHTML = '';
+    
+    if (!rooms || rooms.length === 0) {
+        roomCardsContainer.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">No rooms available</div>';
+        return;
+    }
+    
+    rooms.forEach(room => {
+        // Convert status to lowercase for CSS classes
+        const statusLower = room.status.toLowerCase();
+        const statusClass = `status-${statusLower}`;
+        
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-lg shadow-md p-4 border-l-4';
+        
+        // Set border color based on status
+        if (statusLower === 'available') card.classList.add('border-green-500');
+        else if (statusLower === 'occupied') card.classList.add('border-red-500');
+        else if (statusLower === 'reserved') card.classList.add('border-blue-500');
+        else if (statusLower === 'dirty') card.classList.add('border-yellow-500');
+        else card.classList.add('border-gray-400');
+        
+        card.innerHTML = `
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="font-bold text-lg">Room ${room.room_number}</h3>
+                <span class="px-2 py-1 rounded-full text-xs font-medium ${statusClass}">${room.status}</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-2">${room.room_type}</p>
+            <p class="text-eco-dark font-bold mb-3">₱${room.price_per_night}/night</p>
+            <p class="text-gray-500 text-sm mb-4">Capacity: ${room.capacity} person${room.capacity > 1 ? 's' : ''}</p>
+            <div class="flex justify-between">
+                <button class="text-eco-accent hover:text-eco-dark text-sm flex items-center update-status-btn" data-room-id="${room.id}">
+                    <i class="fas fa-edit mr-1"></i> Update Status
+                </button>
+                <button class="text-eco-primary hover:text-eco-dark text-sm flex items-center book-room-btn" data-room-id="${room.id}">
+                    <i class="fas fa-calendar-plus mr-1"></i> Book
+                </button>
+            </div>
+        `;
+        
+        roomCardsContainer.appendChild(card);
+    });
+    
+    // Add event listeners to update status buttons
+    document.querySelectorAll('.update-status-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const roomId = parseInt(this.getAttribute('data-room-id'));
+            updateRoomStatus(roomId);
+        });
+    });
+
+    document.querySelectorAll('.book-room-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const roomId = parseInt(this.getAttribute('data-room-id'));
+            bookRoom(roomId);
+        });
+    });
+}
+
+
+    function fetchCustomers() {
+        fetch('/customers') 
+            .then(response => response.json())
+            .then(data => {
+                renderCustomersTable(data);
+            })
+            .catch(error => {
+                console.error('Error fetching customers:', error);
+               
+                customersTableBody.innerHTML = '<tr><td colspan="6" class="py-4 px-6 text-center text-gray-500">No customers found</td></tr>';
+            });
+    }
+
+    function renderCustomersTable(customers) {
+        customersTableBody.innerHTML = '';
+        
+        if (!customers || customers.length === 0) {
+            customersTableBody.innerHTML = '<tr><td colspan="6" class="py-4 px-6 text-center text-gray-500">No customers found</td></tr>';
+            return;
+        }
+        
+        customers.forEach(customer => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-eco-cream transition-colors';
+            row.innerHTML = `
+                <td class="py-4 px-6 font-medium">${customer.customer_id || customer.id}</td>
+                <td class="py-4 px-6">${customer.name}</td>
+                <td class="py-4 px-6">${customer.email}</td>
+                <td class="py-4 px-6">${customer.phone || 'N/A'}</td>
+                <td class="py-4 px-6">
+                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-eco-light text-eco-dark">${customer.reservations_count || 0} bookings</span>
+                </td>
+                <td class="py-4 px-6">
+                    <div class="flex space-x-2">
+                        <button class="text-eco-accent hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors view-customer-btn" data-customer-id="${customer.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="text-eco-primary hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors edit-customer-btn" data-customer-id="${customer.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition-colors book-customer-btn" data-customer-id="${customer.id}">
+                            <i class="fas fa-calendar-plus"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            
+            customersTableBody.appendChild(row);
+        });
+        
+        // Add event listeners to customer buttons
+        document.querySelectorAll('.view-customer-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const customerId = parseInt(this.getAttribute('data-customer-id'));
+                viewCustomer(customerId);
+            });
+        });
+        
+        document.querySelectorAll('.edit-customer-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const customerId = parseInt(this.getAttribute('data-customer-id'));
+                editCustomer(customerId);
+            });
+        });
+        
+        document.querySelectorAll('.book-customer-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const customerId = parseInt(this.getAttribute('data-customer-id'));
+                bookForCustomer(customerId);
+            });
+        });
+    }
+
+    // Function to view reservation details
+    function viewReservation(reservationId) {
+        alert(`View reservation ${reservationId} functionality would open here`);
+    }
+
+    // Function to edit reservation
+    function editReservation(reservationId) {
+        alert(`Edit reservation ${reservationId} functionality would open here`);
+    }
+
+ 
+    function generateInvoice(reservationId) {
+        invoicePreviewModal.classList.remove('hidden');
+    }
+
+    function updateRoomStatus(roomId) {
+        alert(`Update room status functionality for room ${roomId} would open here`);
+    }
+
+   
+   function updateRoomStatus(roomId) {
+    const newStatus = prompt('Enter new status (Available, Occupied, Reserved, Dirty, Out):');
+    
+    if (newStatus && ['Available', 'Occupied', 'Reserved', 'Dirty', 'Out'].includes(newStatus)) {
+        fetch(`/rooms/${roomId}/status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                status: newStatus
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`Room status updated to ${newStatus}`);
+                fetchRooms(); // Refresh the rooms display
+            } else {
+                alert('Failed to update room status');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating room status:', error);
+            alert('Error updating room status');
+        });
+    } else if (newStatus) {
+        alert('Invalid status. Please use: Available, Occupied, Reserved, Dirty, or Out');
+    }
+}
+
+
+function bookRoom(roomId) {
+    // Find the room in the current rooms data
+    fetch('/rooms')
+        .then(response => response.json())
+        .then(rooms => {
+            const room = rooms.find(r => r.id === roomId);
+            if (!room) return;
+            
+            if (room.status.toLowerCase() === 'available') {
+                createReservationModal.classList.remove('hidden');
+                // Pre-fill the room selection in the form
+                const roomSelect = document.querySelector('select[name="room_id"]');
+                if (roomSelect) {
+                    roomSelect.value = roomId;
+                }
+            } else {
+                alert(`Room ${room.room_number} is not available for booking. Current status: ${room.status}`);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching room details:', error);
+        });
+}
+
+    function viewCustomer(customerId) {
+        alert(`View customer ${customerId} functionality would open here`);
+    }
+    
+    function editCustomer(customerId) {
+        alert(`Edit customer ${customerId} functionality would open here`);
+    }
+
+    function bookForCustomer(customerId) {
+        createReservationModal.classList.remove('hidden');
+    }
+
+ 
+    const searchInput = document.querySelector('input[type="text"]');
+    searchInput.addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        console.log('Searching for:', searchTerm);
+    });
+
+    // Initialize static charts (as requested)
+    function initializeCharts() {
+        // Reservation Status Distribution Chart (Static)
+        const reservationStatusCtx = document.getElementById('reservationStatusChart').getContext('2d');
+        new Chart(reservationStatusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Confirmed', 'Checked-In', 'Pending', 'Checked-Out', 'Cancelled'],
+                datasets: [{
+                    data: [35, 20, 15, 25, 5],
+                    backgroundColor: [
+                        '#4CAF50',
+                        '#2196F3',
+                        '#FF9800',
+                        '#9C27B0',
+                        '#F44336'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
                     }
                 }
-            });
+            }
+        });
 
-            const revenueTrendCtx = document.getElementById('revenueTrendChart').getContext('2d');
-            new Chart(revenueTrendCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                    datasets: [{
-                        label: 'Revenue ($)',
-                        data: [18500, 21200, 19800, 22400, 24850],
-                        borderColor: '#4CAF50',
-                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                drawBorder: false
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
+        // Monthly Revenue Trend Chart (Static)
+        const revenueTrendCtx = document.getElementById('revenueTrendChart').getContext('2d');
+        new Chart(revenueTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue (₱)',
+                    data: [18500, 21200, 19800, 22400, 24850, 26500],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false
                         }
                     },
-                    plugins: {
-                        legend: {
+                    x: {
+                        grid: {
                             display: false
                         }
                     }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 }
-            });
-        }
+            }
+        });
+    }
 
-        // Initialize the UI
-        renderReservationsTable();
-        renderRoomCards();
+ 
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchReservations();
+        fetchRooms();
         initializeCharts();
-    </script>
+    });
+</script>
 </body>
 </html>
