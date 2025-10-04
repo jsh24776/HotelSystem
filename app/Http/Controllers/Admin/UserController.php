@@ -74,4 +74,65 @@ class UserController extends Controller
         ->with('success', 'User restored successfully.');
 }
 
+
+
+ public function show($id)
+    {
+        $user = User::with(['reservations.room'])
+            ->findOrFail($id);
+            
+        $reservations = $user->reservations()
+            ->with('room')
+            ->orderBy('check_in_date', 'desc')
+            ->get();
+
+        return view('admin.users.show', compact('user', 'reservations'));
+    }
+
+    public function getStayHistory($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $reservations = $user->reservations()
+                ->with('room')
+                ->orderBy('check_in_date', 'desc')
+                ->get()
+                ->map(function ($reservation) {
+                    return [
+                        'id' => $reservation->id,
+                        'reservation_id' => 'RSV-' . str_pad($reservation->id, 3, '0', STR_PAD_LEFT),
+                        'room_number' => $reservation->room ? $reservation->room->room_number : 'N/A',
+                        'room_type' => $reservation->room ? $reservation->room->room_type : 'N/A',
+                        'check_in_date' => $reservation->check_in_date,
+                        'check_out_date' => $reservation->check_out_date,
+                        'status' => $reservation->status,
+                        'total_amount' => $reservation->total_amount,
+                        'guest_count' => $reservation->guest_count,
+                        'payment_method' => $reservation->payment_method,
+                        'stay_duration' => \Carbon\Carbon::parse($reservation->check_in_date)
+                            ->diffInDays(\Carbon\Carbon::parse($reservation->check_out_date)),
+                        'created_at' => $reservation->created_at,
+                    ];
+                });
+
+            $stats = [
+                'total_stays' => $reservations->count(),
+                'total_nights' => $reservations->sum('stay_duration'),
+                'total_spent' => $reservations->sum('total_amount'),
+                'average_stay' => $reservations->count() > 0 ? round($reservations->sum('stay_duration') / $reservations->count(), 1) : 0,
+                'last_visit' => $reservations->first() ? $reservations->first()['check_out_date'] : null,
+            ];
+
+            return response()->json([
+                'reservations' => $reservations,
+                'stats' => $stats,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to fetch stay history',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }

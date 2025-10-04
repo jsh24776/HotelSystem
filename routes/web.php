@@ -10,7 +10,6 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
-// Rooms routes - accessible without admin prefix
 Route::middleware(['auth'])->group(function () {
     Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
     Route::post('/rooms/{id}/status', [RoomController::class, 'updateStatus'])->name('rooms.updateStatus');
@@ -20,14 +19,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
-    
-    // FIXED: Remove the duplicate /admin prefix
+  
     Route::get('/reservations/data', [ReservationController::class, 'getReservationsData'])->name('reservations.data');
     
     Route::resource('users', UserController::class);
     Route::post('/users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/stay-history', [UserController::class, 'getStayHistory'])->name('users.stay-history');
 
     Route::get('/bookings', [ReservationController::class, 'index'])->name('bookings.index');
+
+
 
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');

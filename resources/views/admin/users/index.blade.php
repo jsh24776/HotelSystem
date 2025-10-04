@@ -283,6 +283,12 @@
                              
                                 <td class="py-4 px-6">
                                     <div class="flex space-x-2">
+
+                                    <a href="{{ route('admin.users.show', $user) }}" 
+                                        class="text-eco-primary hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors"
+                                        title="View Profile & Stay History">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                         <a href="{{ route('admin.users.edit', $user) }}" 
                                            class="text-eco-accent hover:text-eco-dark p-2 rounded-lg hover:bg-eco-cream transition-colors"
                                            title="Edit User">
