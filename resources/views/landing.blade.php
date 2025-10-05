@@ -9,7 +9,7 @@
         window.appRoutes = {
             login: "{{ route('login') }}",
             register: "{{ route('register') }}",
-             dashboard: "{{ Auth::check() ? (Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard')) : route('login') }}"
+            dashboard: "{{ Auth::check() ? (Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard')) : route('login') }}"
         };
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,15 +34,14 @@
             }
         }
     </script>
-    
 </head>
 <body 
     x-data="{ loginOpen: false, registerOpen: false, mobileMenuOpen: false }" 
     class="bg-gray-50"
     @open-login-modal.window="loginOpen = true; registerOpen = false"
     @open-register-modal.window="registerOpen = true; loginOpen = false">
-   
 
+    <!-- Navigation -->
     <nav class="bg-white shadow-lg fixed w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -52,37 +51,36 @@
                         Brokenshire Hotel
                     </a>
                 </div>
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="#rooms" class="text-gray-700 hover:text-eco-primary transition-colors">Rooms</a>
-                        <a href="#amenities" class="text-gray-700 hover:text-eco-primary transition-colors">Amenities</a>
-                        <a href="#dining" class="text-gray-700 hover:text-eco-primary transition-colors">Dining</a>
-                        <a href="#contact" class="text-gray-700 hover:text-eco-primary transition-colors">Contact</a>
-                        
-                        
-                        @guest
-                            <button @click="loginOpen = true; mobileMenuOpen = false" 
-                                    class="text-gray-700 hover:text-eco-primary transition-colors">
-                                <i class="fas fa-sign-in-alt mr-2"></i>Login
-                            </button>   
-                            <button @click="registerOpen = true; mobileMenuOpen = false" 
-                                    class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-6 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                                <i class="fas fa-user-plus mr-2"></i>Register
-                            </button>
-                        @else
-                           <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}"
-                            class="text-eco-primary hover:text-eco-accent transition-colors">
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#rooms" class="text-gray-700 hover:text-eco-primary transition-colors">Rooms</a>
+                    <a href="#amenities" class="text-gray-700 hover:text-eco-primary transition-colors">Amenities</a>
+                    <a href="#dining" class="text-gray-700 hover:text-eco-primary transition-colors">Dining</a>
+                    <a href="#contact" class="text-gray-700 hover:text-eco-primary transition-colors">Contact</a>
+                    
+                    @guest
+                        <button @click="loginOpen = true; mobileMenuOpen = false" 
+                                class="text-gray-700 hover:text-eco-primary transition-colors">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                        </button>   
+                        <button @click="registerOpen = true; mobileMenuOpen = false" 
+                                class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-6 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                            <i class="fas fa-user-plus mr-2"></i>Register
+                        </button>
+                    @else
+                        <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}"
+                           class="text-eco-primary hover:text-eco-accent transition-colors">
                             <i class="fas fa-user-circle mr-2"></i>{{ Auth::user()->name }}
-                            </a>
-                            <form method="POST" action="{{ route('logout') }}" class="inline">
-                                @csrf
-                                <button type="submit" class="text-gray-700 hover:text-eco-primary transition-colors">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                                </button>
-                            </form>
-                        @endguest
-                    </div>
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="text-gray-700 hover:text-eco-primary transition-colors">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </button>
+                        </form>
+                    @endguest
+                </div>
                 <div class="md:hidden flex items-center">
-                    <button class="text-gray-700 hover:text-eco-primary">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-700 hover:text-eco-primary">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
@@ -90,7 +88,7 @@
         </div>
     </nav>
 
-    
+    <!-- Hero Section -->
     <div class="relative h-screen">
         <div class="absolute inset-0">
             <img src="https://images.unsplash.com/photo-1587061949409-02df41d5e562?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
@@ -114,90 +112,86 @@
         </div>
     </div>
 
-    
-   <section id="rooms" class="py-20 bg-eco-cream bg-leaf-pattern">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <span class="text-eco-primary"><i class="fas fa-leaf text-3xl mb-4"></i></span>
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">Eco-Friendly Accommodations</h2>
-            <p class="text-xl text-gray-600">Sustainable luxury meets comfort in our green spaces</p>
+    <!-- Rooms Section -->
+    <section id="rooms" class="py-20 bg-eco-cream bg-leaf-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-eco-primary"><i class="fas fa-leaf text-3xl mb-4"></i></span>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Eco-Friendly Accommodations</h2>
+                <p class="text-xl text-gray-600">Sustainable luxury meets comfort in our green spaces</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Garden Room -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
+                    <img src="{{ asset('images/Brok1.jpg') }}" alt="Garden Room" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-tree text-eco-primary mr-2"></i>
+                            <h3 class="text-xl font-bold text-eco-primary">Garden Room</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Sustainable room with private garden view and eco-friendly amenities.</p>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full mr-2">Solar Powered</span>
+                            <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full">Organic Linens</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-eco-primary font-bold">₱620/night</span>
+                            <button class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-4 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eco Suite -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
+                    <img src="{{ asset('images/Brok2.jpg') }}" alt="Eco Suite" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-leaf text-eco-primary mr-2"></i>
+                            <h3 class="text-xl font-bold text-eco-primary">Eco Suite</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Luxurious suite with sustainable materials and green balcony.</p>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full mr-2">Energy Efficient</span>
+                            <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full">Recycled Materials</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-eco-primary font-bold">₱800/night</span>
+                            <button class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-4 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Green Villa -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
+                    <img src="{{ asset('images/brok3.jpeg') }}" alt="Green Villa" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-seedling text-eco-primary mr-2"></i>
+                            <h3 class="text-xl font-bold text-eco-primary">Green Villa</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Premium eco-villa with private garden and sustainable luxury.</p>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full mr-2">Zero Waste</span>
+                            <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full">Natural Materials</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-eco-primary font-bold">₱1,220/night</span>
+                            <button class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-4 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- Corrected grid -->
-        <div class="grid md:grid-cols-3 gap-8">
-
-            <!-- Garden Room -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
-                <img src="{{ asset('images/Brok1.jpg') }}" alt="Garden Room" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-tree text-eco-primary mr-2"></i>
-                        <h3 class="text-xl font-bold text-eco-primary">Garden Room</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">Sustainable room with private garden view and eco-friendly amenities.</p>
-                    <div class="flex items-center mb-4">
-                        <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full mr-2">Solar Powered</span>
-                        <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full">Organic Linens</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-eco-primary font-bold">₱620/night</span>
-                        <button class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-4 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                            Book Now
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Eco Suite -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
-                <img src="{{ asset('images/Brok2.jpg') }}" alt="Eco Suite" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-leaf text-eco-primary mr-2"></i>
-                        <h3 class="text-xl font-bold text-eco-primary">Eco Suite</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">Luxurious suite with sustainable materials and green balcony.</p>
-                    <div class="flex items-center mb-4">
-                        <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full mr-2">Energy Efficient</span>
-                        <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full">Recycled Materials</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-eco-primary font-bold">₱800/night</span>
-                        <button class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-4 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                            Book Now
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Green Villa -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-all duration-300">
-                <img src="{{ asset('images/brok3.jpeg') }}" alt="Green Villa" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-seedling text-eco-primary mr-2"></i>
-                        <h3 class="text-xl font-bold text-eco-primary">Green Villa</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">Premium eco-villa with private garden and sustainable luxury.</p>
-                    <div class="flex items-center mb-4">
-                        <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full mr-2">Zero Waste</span>
-                        <span class="bg-eco-light text-eco-dark text-xs px-2 py-1 rounded-full">Natural Materials</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-eco-primary font-bold">₱1,220/night</span>
-                        <button class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-4 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                            Book Now
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-    
+    <!-- Amenities Section -->
     <section id="amenities" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -253,35 +247,31 @@
                     </div>
                 </div>
                 <div class="relative">
-    <img src="{{ asset('images/swim.webp') }}" 
-         alt="Eco-friendly Amenities" 
-         class="rounded-t-xl shadow-xl">
-
-    
-    <div class="bg-white bg-opacity-90 p-4 rounded-b-xl shadow-xl">
-        <div class="flex items-center justify-around text-eco-primary">
-            <div class="text-center">
-                <i class="fas fa-leaf text-2xl mb-2"></i>
-                <p class="text-sm">100% Green Energy</p>
-            </div>
-            <div class="text-center">
-                <i class="fas fa-water text-2xl mb-2"></i>
-                <p class="text-sm">Water Conservation</p>
-            </div>
-            <div class="text-center">
-                <i class="fas fa-seedling text-2xl mb-2"></i>
-                <p class="text-sm">Organic Gardens</p>
-            </div>
-        </div>
-    </div>
-</div>
-                
-
+                    <img src="{{ asset('images/swim.webp') }}" 
+                         alt="Eco-friendly Amenities" 
+                         class="rounded-t-xl shadow-xl">
+                    <div class="bg-white bg-opacity-90 p-4 rounded-b-xl shadow-xl">
+                        <div class="flex items-center justify-around text-eco-primary">
+                            <div class="text-center">
+                                <i class="fas fa-leaf text-2xl mb-2"></i>
+                                <p class="text-sm">100% Green Energy</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-water text-2xl mb-2"></i>
+                                <p class="text-sm">Water Conservation</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-seedling text-2xl mb-2"></i>
+                                <p class="text-sm">Organic Gardens</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    
+    <!-- Dining Section -->
     <section id="dining" class="py-20 bg-eco-cream bg-leaf-pattern">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -346,7 +336,7 @@
         </div>
     </section>
 
-   
+    <!-- Contact Section -->
     <section id="contact" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -527,194 +517,7 @@
         </div>
     </footer>
 
-
-    <div x-show="loginOpen"
-         x-cloak
-         class="fixed inset-0 z-50 overflow-y-auto"
-         @keydown.escape.window="loginOpen = false">
-        
-        
-        <div class="fixed inset-0 bg-black bg-opacity-40"
-             x-show="loginOpen"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             @click="loginOpen = false"></div>
-
-        
-        <div class="relative min-h-screen flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-md mx-auto"
-                 x-show="loginOpen"
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0 transform scale-95"
-                 x-transition:enter-end="opacity-100 transform scale-100"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100 transform scale-100"
-                 x-transition:leave-end="opacity-0 transform scale-95"
-                 @click.stop>
-
-                
-                <button @click="loginOpen = false" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-
-                
-                <div class="p-8">
-                    <div class="text-center mb-8">
-                        <h2 class="text-3xl font-bold text-gray-900">Welcome Back</h2>
-                        <p class="text-gray-600 mt-2">Sign in to your eco-friendly account</p>
-                    </div>
-
-                    <form method="POST" action="{{ route('login') }}" class="space-y-6">
-                        @csrf
-
-                        <!-- Email Address -->
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                        </div>
-
-                        
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                            <input id="password" type="password" name="password" required
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                        </div>
-
-                     
-                        <div class="flex items-center justify-between">
-                            <label class="flex items-center">
-                                <input type="checkbox" name="remember" class="rounded border-gray-300 text-eco-primary focus:ring-eco-primary">
-                                <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                            </label>
-
-                            @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="text-sm text-eco-primary hover:text-eco-accent">
-                                    Forgot password?
-                                </a>
-                            @endif
-                        </div>
-
-                        <button type="submit" 
-                                class="w-full bg-gradient-to-r from-eco-primary to-eco-accent text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
-                            Sign in
-                        </button>
-
-                        <p class="text-center text-sm text-gray-600 mt-4">
-                            Don't have an account?
-                            <a href="#" @click.prevent="loginOpen = false; registerOpen = true" class="text-eco-primary hover:text-eco-accent">
-                                Create account
-                            </a>
-                        </p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-   
-    <div x-show="registerOpen"
-         x-cloak
-         class="fixed inset-0 z-50 overflow-y-auto"
-         @keydown.escape.window="registerOpen = false">
-        
-        
-        <div class="fixed inset-0 bg-black bg-opacity-40"
-             x-show="registerOpen"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             @click="registerOpen = false"></div>
-
-        
-        <div class="relative min-h-screen flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-md mx-auto"
-                 x-show="registerOpen"
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0 transform scale-95"
-                 x-transition:enter-end="opacity-100 transform scale-100"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100 transform scale-100"
-                 x-transition:leave-end="opacity-0 transform scale-95"
-                 @click.stop>
-
-                
-                <button @click="registerOpen = false" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-
-                
-                <div class="p-8">
-                    <div class="text-center mb-8">
-                        <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
-                        <p class="text-gray-600 mt-2">Join our eco-friendly community</p>
-                    </div>
-
-                    <form method="POST" action="{{ route('register') }}" class="space-y-6">
-                        @csrf
-
-                        
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                            <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                        </div>
-
-                        <!-- Email Address -->
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}" required
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                        </div>
-
-                        <!-- Password -->
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                            <input id="password" type="password" name="password" required
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div>
-                            <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                            <input id="password_confirmation" type="password" name="password_confirmation" required
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
-                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-                        </div>
-
-                        <button type="submit" 
-                                class="w-full bg-gradient-to-r from-eco-primary to-eco-accent text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
-                            Create Account
-                        </button>   
-
-                        <p class="text-center text-sm text-gray-600 mt-4">
-                            Already have an account?
-                            <a href="#" @click.prevent="registerOpen = false; loginOpen = true" class="text-eco-primary hover:text-eco-accent">
-                                Sign in
-                            </a>
-                        </p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Mobile Menu -->
     <div x-show="mobileMenuOpen"
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 transform -translate-y-2"
@@ -722,132 +525,61 @@
         x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100 transform translate-y-0"
         x-transition:leave-end="opacity-0 transform -translate-y-2"
-        class="absolute top-16 inset-x-0 p-2 md:hidden"
+        class="fixed top-16 inset-x-0 p-2 md:hidden z-50"
         x-cloak>
-     
-    <div class="rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
-        <div class="px-5 pt-4 flex items-center justify-between">
-            <div class="h-8"><!-- logo or spacer --></div>
-            <div class="-mr-2">
-                <button @click="mobileMenuOpen = false" 
-                        class="rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100">
-                    <span class="sr-only">Close menu</span>
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                              d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="#rooms" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary hover:bg-gray-50">Rooms</a>
-            <a href="#amenities" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary hover:bg-gray-50">Amenities</a>
-            <a href="#dining" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary hover:bg-gray-50">Dining</a>
-            <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary hover:bg-gray-50">Contact</a>
-
-            @guest
-                <button @click="loginOpen = true; mobileMenuOpen = false" 
-                        class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-eco-primary hover:text-eco-accent">
-                    Sign In
-                </button>
-                <button @click="registerOpen = true; mobileMenuOpen = false"
-                        class="block w-full px-3 py-2 rounded-md text-base font-medium bg-gradient-to-r from-eco-primary to-eco-accent text-white">
-                    Create Account
-                </button>
-            @else
-                 <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" 
-                    class="block px-3 py-2 rounded-md text-base font-medium text-eco-primary hover:text-eco-accent">
-                    Dashboard
-                    </a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" 
-                            class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary">
-                        Logout
+        <div class="rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
+            <div class="px-5 pt-4 flex items-center justify-between">
+                <div class="h-8"></div>
+                <div class="-mr-2">
+                    <button @click="mobileMenuOpen = false" 
+                            class="rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+                        <span class="sr-only">Close menu</span>
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                     </button>
-                </form>
-            @endguest
-        </div>
-    </div>
-</div>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brokenshire Hotel</title>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        [x-cloak] { display: none !important; }
-        .bg-eco-primary { background-color: #10b981; }
-        .text-eco-primary { color: #10b981; }
-        .border-eco-primary { border-color: #10b981; }
-        .bg-eco-accent { background-color: #059669; }
-        .text-eco-accent { color: #059669; }
-        .focus\:ring-eco-primary:focus { --tw-ring-color: rgba(16, 185, 129, 0.5); }
-    </style>
-</head>
-<body 
-    x-data="{ loginOpen: false, registerOpen: false, mobileMenuOpen: false }" 
-    class="bg-gray-50"
-    @open-login-modal.window="loginOpen = true; registerOpen = false"
-    @open-register-modal.window="registerOpen = true; loginOpen = false">
-   
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="#" class="text-2xl font-bold text-eco-primary flex items-center">
-                        <i class="fas fa-leaf mr-2"></i>
-                        Brokenshire Hotel
-                    </a>
                 </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#rooms" class="text-gray-700 hover:text-eco-primary transition-colors">Rooms</a>
-                    <a href="#amenities" class="text-gray-700 hover:text-eco-primary transition-colors">Amenities</a>
-                    <a href="#dining" class="text-gray-700 hover:text-eco-primary transition-colors">Dining</a>
-                    <a href="#contact" class="text-gray-700 hover:text-eco-primary transition-colors">Contact</a>
-                    
-                    <!-- Guest buttons -->
+            </div>
+
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#rooms" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary hover:bg-gray-50">Rooms</a>
+                <a href="#amenities" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary hover:bg-gray-50">Amenities</a>
+                <a href="#dining" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary hover:bg-gray-50">Dining</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary hover:bg-gray-50">Contact</a>
+
+                @guest
                     <button @click="loginOpen = true; mobileMenuOpen = false" 
-                            class="text-gray-700 hover:text-eco-primary transition-colors">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Login
-                    </button>   
-                    <button @click="registerOpen = true; mobileMenuOpen = false" 
-                            class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-6 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                        <i class="fas fa-user-plus mr-2"></i>Register
+                            class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-eco-primary hover:text-eco-accent">
+                        Sign In
                     </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
-    <div class="pt-20">
-        
-        <div class="bg-gradient-to-r from-green-50 to-eco-primary/10 py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-4">Welcome to Brokenshire Hotel</h1>
-                <p class="text-xl text-gray-600 mb-8">Experience luxury with an eco-friendly touch</p>
-                <button @click="registerOpen = true" 
-                        class="bg-gradient-to-r from-eco-primary to-eco-accent text-white px-8 py-3 rounded-full text-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                    Book Your Stay
-                </button>
+                    <button @click="registerOpen = true; mobileMenuOpen = false"
+                            class="block w-full px-3 py-2 rounded-md text-base font-medium bg-gradient-to-r from-eco-primary to-eco-accent text-white">
+                        Create Account
+                    </button>
+                @else
+                    <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" 
+                       class="block px-3 py-2 rounded-md text-base font-medium text-eco-primary hover:text-eco-accent">
+                        Dashboard
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" 
+                                class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-eco-primary">
+                            Logout
+                        </button>
+                    </form>
+                @endguest
             </div>
         </div>
     </div>
 
+    <!-- Login Modal -->
     <div x-show="loginOpen"
          x-cloak
          class="fixed inset-0 z-50 overflow-y-auto"
          @keydown.escape.window="loginOpen = false">
         
-       
         <div class="fixed inset-0 bg-black bg-opacity-40"
              x-show="loginOpen"
              x-transition:enter="transition ease-out duration-300"
@@ -858,7 +590,6 @@
              x-transition:leave-end="opacity-0"
              @click="loginOpen = false"></div>
 
-        
         <div class="relative min-h-screen flex items-center justify-center p-4">
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-md mx-auto"
                  x-show="loginOpen"
@@ -870,14 +601,12 @@
                  x-transition:leave-end="opacity-0 transform scale-95"
                  @click.stop>
 
-                
                 <button @click="loginOpen = false" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
 
-                
                 <div class="p-8">
                     <div class="text-center mb-8">
                         <h2 class="text-3xl font-bold text-gray-900">Welcome Back</h2>
@@ -885,22 +614,20 @@
                     </div>
 
                     <form method="POST" action="{{ route('login') }}" class="space-y-6">
-                         @csrf
-                        
+                        @csrf
+
                         <div>
                             <label for="login-email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input id="login-email" type="email" name="email" value="admin@example.com" required autofocus
+                            <input id="login-email" type="email" name="email" required autofocus
                                    class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
                         </div>
 
-                        
                         <div>
                             <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
                             <input id="login-password" type="password" name="password" required
                                    class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
                         </div>
 
-                        
                         <div class="flex items-center justify-between">
                             <label class="flex items-center">
                                 <input type="checkbox" name="remember" class="rounded border-gray-300 text-eco-primary focus:ring-eco-primary">
@@ -912,13 +639,11 @@
                             </a>
                         </div>
 
-                        
                         <button type="submit" 
                                 class="w-full bg-gradient-to-r from-eco-primary to-eco-accent text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-eco-primary focus:ring-opacity-50">
                             Sign in
                         </button>
 
-                        
                         <p class="text-center text-sm text-gray-600 mt-4">
                             Don't have an account?
                             <a href="#" @click.prevent="loginOpen = false; registerOpen = true" class="text-eco-primary hover:text-eco-accent font-medium">
@@ -931,12 +656,11 @@
         </div>
     </div>
 
-    
+    <!-- Register Modal -->
     <div x-show="registerOpen"
          x-cloak
          class="fixed inset-0 z-50 overflow-y-auto"
          @keydown.escape.window="registerOpen = false">
-        
         
         <div class="fixed inset-0 bg-black bg-opacity-40"
              x-show="registerOpen"
@@ -948,9 +672,8 @@
              x-transition:leave-end="opacity-0"
              @click="registerOpen = false"></div>
 
-        <!-- Modal Container -->
-        <div class="relative min-h-screen flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-md mx-auto"
+        <div class="relative min-h-screen flex items-center justify-center p-6">
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-3xl mx-auto flex flex-col md:flex-row"
                  x-show="registerOpen"
                  x-transition:enter="transition ease-out duration-300"
                  x-transition:enter-start="opacity-0 transform scale-95"
@@ -960,59 +683,79 @@
                  x-transition:leave-end="opacity-0 transform scale-95"
                  @click.stop>
 
-                <!-- Close Button -->
-                <button @click="registerOpen = false" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10">
+                <button @click="registerOpen = false" 
+                        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
 
-                <!-- Modal Content -->
-                <div class="p-8">
-                    <div class="text-center mb-8">
-                        <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
-                        <p class="text-gray-600 mt-2">Join our eco-friendly community</p>
+                <!-- Left Side Illustration -->
+                <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-eco-primary/10 to-eco-accent/10 items-center justify-center p-6">
+                    <div class="text-center space-y-3">
+                        <h2 class="text-3xl font-bold text-eco-primary">Join Us!</h2>
+                        <p class="text-gray-600">Be part of our eco-friendly community 🌱</p>
+                        <svg class="mx-auto w-32 h-32 text-eco-primary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+                                  d="M12 3v18m9-9H3" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="p-8 md:w-1/2">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">Create Account</h2>
+                        <p class="text-gray-600 mt-1">Fill in your details below</p>
                     </div>
 
-                    <form method="POST" action="{{ route('register') }}" class="space-y-6">
-                            @csrf
-                        <div>
-                            <label for="register-name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                            <input id="register-name" type="text" name="name" required autofocus
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
+                    <form method="POST" action="{{ route('register') }}" class="space-y-5">
+                        @csrf
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="register-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input id="register-name" type="text" name="name" required autofocus
+                                       class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
+                            </div>
+
+                            <div>
+                                <label for="register-phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                <input id="register-phone" type="tel" name="phone" required
+                                       class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
+                            </div>
                         </div>
 
-                        <!-- Email Address -->
-                        <div>
-                            <label for="register-email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input id="register-email" type="email" name="email" required
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="register-email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input id="register-email" type="email" name="email" required
+                                       class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
+                            </div>
+
+                            <div>
+                                <label for="register-password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <input id="register-password" type="password" name="password" required
+                                       class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
+                            </div>
                         </div>
 
-                        <!-- Password -->
-                        <div>
-                            <label for="register-password" class="block text-sm font-medium text-gray-700">Password</label>
-                            <input id="register-password" type="password" name="password" required
-                                   class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
-                        </div>
-
-                        <!-- Confirm Password -->
                         <div>
                             <label for="register-password-confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
                             <input id="register-password-confirmation" type="password" name="password_confirmation" required
                                    class="mt-1 block w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-eco-primary focus:ring focus:ring-eco-primary/20 transition-shadow">
                         </div>
 
-                        
-                         <button type="submit" 
+                        <button type="submit" 
                                 class="w-full bg-gradient-to-r from-eco-primary to-eco-accent text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-eco-primary focus:ring-opacity-50">
-                          Register
-                        </button> 
+                            Register
+                        </button>
 
-                        
                         <p class="text-center text-sm text-gray-600 mt-4">
                             Already have an account?
-                            <a href="#" @click.prevent="registerOpen = false; loginOpen = true" class="text-eco-primary hover:text-eco-accent font-medium">
+                            <a href="#" @click.prevent="registerOpen = false; loginOpen = true" 
+                               class="text-eco-primary hover:text-eco-accent font-medium">
                                 Sign in
                             </a>
                         </p>
@@ -1021,19 +764,6 @@
             </div>
         </div>
     </div>
-
-</body>
-</html>
-
- <script>
-    
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('authModals', () => ({
-                loginOpen: false,
-                registerOpen: false
-            }))
-        });
-    </script>
 
 </body>
 </html>

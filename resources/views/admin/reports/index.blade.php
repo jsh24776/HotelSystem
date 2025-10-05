@@ -168,7 +168,7 @@
                    <li>
                          <a href="{{ route('admin.users.index') }}" 
                                 class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
-                                <i class="fas fa-users mr-3"></i> Users
+                                <i class="fas fa-users mr-3"></i> Guest
                             </a>
                     </li>
                     <li>

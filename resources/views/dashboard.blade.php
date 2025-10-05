@@ -1829,7 +1829,7 @@
                 alertIcon.className = 'fas fa-exclamation-circle text-red-500 text-xl mt-1';
             }
             
-            // Set alert content
+    
             alertTitle.textContent = title;
             alertMessage.textContent = message;
           

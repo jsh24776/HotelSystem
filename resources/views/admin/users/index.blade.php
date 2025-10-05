@@ -121,7 +121,7 @@
                     <i class="fas fa-leaf text-eco-primary"></i>
                     <span>BrokenShire</span>
                 </h1>
-                <p class="text-sm text-gray-500 mt-1">Users Management</p>
+                <p class="text-sm text-gray-500 mt-1">Guest Management</p>
             </div>
             
           <nav class="mt-6">
@@ -135,7 +135,7 @@
                    <li>
                          <a href="{{ route('admin.users.index') }}" 
                                 class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
-                                <i class="fas fa-users mr-3"></i> Users
+                                <i class="fas fa-users mr-3"></i> Guest
                             </a>
                     </li>
                     <li>
@@ -193,8 +193,8 @@
             <header class="mb-8">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h1 class="text-3xl font-bold text-eco-dark">Users</h1>
-                        <p class="text-gray-600">Manage all users in the system</p>
+                        <h1 class="text-3xl font-bold text-eco-dark">Guests</h1>
+                        <p class="text-gray-600">Manage all guest in the system</p>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="relative">
@@ -324,12 +324,12 @@
                 @endif
             </div>
             
-            <!-- User Stats -->
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="dashboard-card bg-white rounded-xl shadow-md p-6 leaf-bg">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-gray-500">Total Users</p>
+                            <p class="text-gray-500">Total Guest</p>
                             <h3 class="text-2xl font-bold text-eco-dark">{{ $users->count() }}</h3>
                             <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up mr-1"></i> 12.5% from last month</p>
                         </div>
@@ -342,7 +342,7 @@
                 <div class="dashboard-card bg-white rounded-xl shadow-md p-6 leaf-bg">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-gray-500">Active Users</p>
+                            <p class="text-gray-500">Active Guest</p>
                             <h3 class="text-2xl font-bold text-eco-dark">{{ $users->where('status', 'check-in')->count() }}</h3>
                             <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up mr-1"></i> 8.2% from last month</p>
                         </div>

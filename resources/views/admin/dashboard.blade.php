@@ -136,7 +136,7 @@
                    <li>
                          <a href="{{ route('admin.users.index') }}" 
                                 class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
-                                <i class="fas fa-users mr-3"></i> Users
+                                <i class="fas fa-users mr-3"></i> Guest
                             </a>
                     </li>
                     <li>
@@ -257,7 +257,7 @@
                 <div class="dashboard-card bg-white rounded-xl shadow-md p-6 leaf-bg">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-gray-500">Active Users</p>
+                            <p class="text-gray-500">Active Guest</p>
                             <h3 class="text-2xl font-bold text-eco-dark">1,248</h3>
                             <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up mr-1"></i> 8.2% from last month</p>
                         </div>

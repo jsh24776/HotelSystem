@@ -128,7 +128,7 @@
     </style>
 </head>
 <body class="bg-eco-cream text-gray-800">
-    <!-- Mobile Menu Button -->
+
     <div class="md:hidden fixed top-4 left-4 z-20">
         <button id="menuToggle" class="bg-eco-primary text-white p-2 rounded-lg">
             <i class="fas fa-bars"></i>
@@ -159,7 +159,7 @@
                    <li>
                          <a href="{{ route('admin.users.index') }}" 
                                 class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
-                                <i class="fas fa-users mr-3"></i> Users
+                                <i class="fas fa-users mr-3"></i> Guest
                             </a>
                     </li>
                     <li>
@@ -211,9 +211,9 @@
             </div>
         </aside>
         
-        <!-- Main Content -->
+   
         <main class="flex-1 ml-0 md:ml-64 p-6">
-            <!-- Header -->
+       
             <header class="mb-8">
                 <div class="flex justify-between items-center">
                     <div>
@@ -257,7 +257,7 @@
                 </div>
             </header>
             
-            <!-- Payment Stats -->
+ 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="dashboard-card bg-white rounded-xl shadow-md p-6 leaf-bg">
                     <div class="flex justify-between items-start">
@@ -267,7 +267,7 @@
                             <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up mr-1"></i> 8.5% from last month</p>
                         </div>
                         <div class="bg-eco-light bg-opacity-20 p-3 rounded-lg">
-                            <i class="fas fa-dollar-sign text-eco-accent text-xl"></i>
+                            <i class="fas fa-peso-sign text-eco-accent text-xl"></i>
                         </div>
                     </div>
                 </div>
@@ -312,7 +312,7 @@
                 </div>
             </div>
             
-            <!-- Action Buttons -->
+         
             <div class="flex flex-wrap gap-4 mb-8">
                 <button id="generateInvoiceBtn" class="bg-eco-primary text-white px-4 py-2 rounded-lg hover:bg-eco-dark transition-colors flex items-center">
                     <i class="fas fa-plus mr-2"></i> Generate Invoice
@@ -330,8 +330,7 @@
                     <i class="fas fa-undo-alt mr-2"></i> Refund Payment
                 </button>
             </div>
-            
-            <!-- Recent Invoices -->
+
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                     <h2 class="text-xl font-bold text-eco-dark">Recent Invoices</h2>
@@ -359,13 +358,13 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200" id="invoicesTableBody">
-                            <!-- Invoice rows will be dynamically generated here -->
+                        
                         </tbody>
                     </table>
                 </div>
             </div>
             
-            <!-- Payment History -->
+      
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                     <h2 class="text-xl font-bold text-eco-dark">Payment History</h2>
@@ -394,13 +393,13 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200" id="paymentsTableBody">
-                            <!-- Payment rows will be dynamically generated here -->
+                    
                         </tbody>
                     </table>
                 </div>
             </div>
             
-            <!-- Financial Reports Preview -->
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div class="bg-white rounded-xl shadow-md p-6">
                     <h3 class="text-lg font-bold text-eco-dark mb-4">Revenue by Payment Method</h3>
@@ -419,7 +418,7 @@
         </main>
     </div>
 
-    <!-- Generate Invoice Modal -->
+
     <div id="generateInvoiceModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
@@ -478,7 +477,7 @@ Jade Albercas)</option>
                                 </div>
                             </div>
                             
-                            <!-- Sample items -->
+                           
                             <div class="border rounded-lg p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="font-medium">Room Charge (Suite, 3 nights)</span>
@@ -494,7 +493,7 @@ Jade Albercas)</option>
                                 </div>
                                 <div class="flex justify-between items-center pt-2 border-t">
                                     <span class="font-bold">Total</span>
-                                    <span class="font-bold text-eco-dark">₱681.70</span>
+                                    <span class="font-bold text-eco-dark">₱2,681.70</span>
                                 </div>
                             </div>
                         </div>
@@ -514,7 +513,7 @@ Jade Albercas)</option>
         </div>
     </div>
 
-    <!-- Cash Payment Modal -->
+
     <div id="cashPaymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="flex justify-between items-center mb-6">
@@ -563,7 +562,7 @@ Jade Albercas)</option>
         </div>
     </div>
 
-    <!-- Online Payment Modal -->
+   
     <div id="onlinePaymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="flex justify-between items-center mb-6">
@@ -588,7 +587,7 @@ Jade Albercas)</option>
                 </div>
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-gray-600">Amount</span>
-                    <span class="font-bold text-eco-dark">₱681.70</span>
+                    <span class="font-bold text-eco-dark">₱2,681.70</span>
                 </div>
                 <div class="flex justify-between items-center">
                     <span class="text-gray-600">Guest</span>
@@ -604,7 +603,201 @@ Jade Albercas</span>
         </div>
     </div>
 
-    <!-- Payment Gateway Modal -->
+    
+    <div id="issueReceiptModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-eco-dark">Issue Receipt</h3>
+                <button id="closeIssueReceiptModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="issueReceiptForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Receipt No.</label>
+                        <input type="text" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" placeholder="e.g., RCPT-001" value="RCPT-2023-001">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Date Issued</label>
+                        <input type="date" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" value="2023-05-18">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Guest Name</label>
+                        <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                            <option value="">Select Guest</option>
+                            <option value="john" selected>Jade Albercas</option>
+                            <option value="jane">John Cena</option>
+                            <option value="mike">John Paul Domon-As</option>
+                            <option value="sarah">Art Mkenjo</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Invoice No.</label>
+                        <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                            <option value="">Select Invoice</option>
+                            <option value="inv-001" selected>INV-001</option>
+                            <option value="inv-002">INV-002</option>
+                            <option value="inv-003">INV-003</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Reservation Reference</label>
+                        <input type="text" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" placeholder="e.g., RES-001" value="RES-001">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Amount Paid</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3 text-gray-500">₱</span>
+                            <input type="number" class="w-full pl-8 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" placeholder="0.00" min="0" step="0.01" value="681.70">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Payment Method</label>
+                        <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                            <option value="cash">Cash</option>
+                            <option value="online" selected>Online</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 mb-2">Remarks</label>
+                        <textarea class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" rows="3" placeholder="Additional notes or remarks...">Payment received for 3-night stay in Suite room.</textarea>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" id="cancelIssueReceipt" class="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors">Issue Receipt</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+  
+    <div id="recordOnlinePaymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-eco-dark">Record Online Payment</h3>
+                <button id="closeRecordOnlinePaymentModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-gray-700 mb-2">Transaction ID</label>
+                    <input type="text" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" placeholder="e.g., TXN-789456123" value="TXN-789456123">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Invoice No.</label>
+                    <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                        <option value="">Select Invoice</option>
+                        <option value="inv-001" selected>INV-001</option>
+                        <option value="inv-002">INV-002</option>
+                        <option value="inv-003">INV-003</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Guest Name</label>
+                    <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                        <option value="">Select Guest</option>
+                        <option value="john" selected>Jade Albercas</option>
+                        <option value="jane">John Cena</option>
+                        <option value="mike">John Paul Domon-As</option>
+                        <option value="sarah">Art Mkenjo</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-3 text-gray-500">₱</span>
+                        <input type="number" class="w-full pl-8 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent" placeholder="0.00" min="0" step="0.01" value="681.70">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Payment Status</label>
+                    <select class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
+                        <option value="completed" selected>Completed</option>
+                        <option value="pending">Pending</option>
+                        <option value="failed">Failed</option>
+                        <option value="refunded">Refunded</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-end">
+                    <button id="recordOnlinePaymentBtn" class="w-full px-4 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors flex items-center justify-center">
+                        <i class="fas fa-save mr-2"></i> Record Payment
+                    </button>
+                </div>
+            </div>
+            
+  
+            <div class="mt-8">
+                <h3 class="text-lg font-bold text-eco-dark mb-4">Recent Online Payments</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50 text-left text-gray-500">
+                                <th class="py-3 px-6 font-medium">Transaction ID</th>
+                                <th class="py-3 px-6 font-medium">Invoice #</th>
+                                <th class="py-3 px-6 font-medium">Guest</th>
+                                <th class="py-3 px-6 font-medium">Amount</th>
+                                <th class="py-3 px-6 font-medium">Status</th>
+                                <th class="py-3 px-6 font-medium">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-eco-cream transition-colors">
+                                <td class="py-4 px-6 font-medium">TXN-789456123</td>
+                                <td class="py-4 px-6">INV-001</td>
+                                <td class="py-4 px-6">Jade Albercas</td>
+                                <td class="py-4 px-6 font-bold">₱2,681.70</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium status-paid">Completed</span>
+                                </td>
+                                <td class="py-4 px-6">2023-05-18</td>
+                            </tr>
+                            <tr class="hover:bg-eco-cream transition-colors">
+                                <td class="py-4 px-6 font-medium">TXN-456789321</td>
+                                <td class="py-4 px-6">INV-002</td>
+                                <td class="py-4 px-6">John Cena</td>
+                                <td class="py-4 px-6 font-bold">₱452.50</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium status-pending">Pending</span>
+                                </td>
+                                <td class="py-4 px-6">2023-05-17</td>
+                            </tr>
+                            <tr class="hover:bg-eco-cream transition-colors">
+                                <td class="py-4 px-6 font-medium">TXN-123456987</td>
+                                <td class="py-4 px-6">INV-004</td>
+                                <td class="py-4 px-6">Art Mkenjo</td>
+                                <td class="py-4 px-6 font-bold">₱325.80</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium status-failed">Failed</span>
+                                </td>
+                                <td class="py-4 px-6">2023-05-15</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div id="paymentGatewayModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="text-center mb-6">
@@ -620,7 +813,7 @@ Jade Albercas</span>
                 </div>
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-gray-600">Amount</span>
-                    <span class="font-bold text-eco-dark">₱681.70 USD</span>
+                    <span class="font-bold text-eco-dark">₱2,681.70 PHP</span>
                 </div>
                 <div class="flex justify-between items-center">
                     <span class="text-gray-600">Description</span>
@@ -649,11 +842,10 @@ Jade Albercas</span>
             
             <div class="flex justify-end space-x-3 mt-6">
                 <button type="button" id="cancelGatewayPayment" class="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
-                <button id="confirmGatewayPayment" class="px-4 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors">Pay $681.70</button>
+                <button id="confirmGatewayPayment" class="px-4 py-2 bg-eco-primary text-white rounded-lg hover:bg-eco-dark transition-colors">Pay ₱2,681.70</button>
             </div>
         </div>
     </div>
-
 
     <div id="paymentSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 text-center">
@@ -685,7 +877,7 @@ Jade Albercas</span>
         </div>
     </div>
 
-    <!-- Logout Confirmation Modal -->
+
     <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div class="flex items-center mb-4">
@@ -707,7 +899,7 @@ Jade Albercas</span>
     </div>
 
     <script>
-        // Sample data
+     
         const sampleInvoices = [
             { id: 1, number: "INV-001", guest: "John Smith", reservation: "RES-001", amount: 681.70, status: "paid", dueDate: "2023-05-20" },
             { id: 2, number: "INV-002", guest: "Jane Doe", reservation: "RES-002", amount: 452.50, status: "pending", dueDate: "2023-05-22" },
@@ -734,6 +926,8 @@ Jade Albercas</span>
         const generateInvoiceModal = document.getElementById('generateInvoiceModal');
         const cashPaymentModal = document.getElementById('cashPaymentModal');
         const onlinePaymentModal = document.getElementById('onlinePaymentModal');
+        const issueReceiptModal = document.getElementById('issueReceiptModal');
+        const recordOnlinePaymentModal = document.getElementById('recordOnlinePaymentModal');
         const paymentGatewayModal = document.getElementById('paymentGatewayModal');
         const paymentSuccessModal = document.getElementById('paymentSuccessModal');
         const logoutModal = document.getElementById('logoutModal');
@@ -750,6 +944,9 @@ Jade Albercas</span>
         const cancelCashPayment = document.getElementById('cancelCashPayment');
         const closeOnlinePaymentModal = document.getElementById('closeOnlinePaymentModal');
         const cancelOnlinePayment = document.getElementById('cancelOnlinePayment');
+        const closeIssueReceiptModal = document.getElementById('closeIssueReceiptModal');
+        const cancelIssueReceipt = document.getElementById('cancelIssueReceipt');
+        const closeRecordOnlinePaymentModal = document.getElementById('closeRecordOnlinePaymentModal');
         const processOnlinePayment = document.getElementById('processOnlinePayment');
         const cancelGatewayPayment = document.getElementById('cancelGatewayPayment');
         const confirmGatewayPayment = document.getElementById('confirmGatewayPayment');
@@ -761,6 +958,8 @@ Jade Albercas</span>
         
         const generateInvoiceForm = document.getElementById('generateInvoiceForm');
         const cashPaymentForm = document.getElementById('cashPaymentForm');
+        const issueReceiptForm = document.getElementById('issueReceiptForm');
+        const recordOnlinePaymentBtn = document.getElementById('recordOnlinePaymentBtn');
 
         // Mobile menu toggle
         document.getElementById('menuToggle').addEventListener('click', function() {
@@ -790,7 +989,7 @@ Jade Albercas</span>
             e.stopPropagation();
         });
         
-        // Modal controls
+   
         generateInvoiceBtn.addEventListener('click', function() {
             generateInvoiceModal.classList.remove('hidden');
         });
@@ -804,7 +1003,7 @@ Jade Albercas</span>
         });
         
         issueReceiptBtn.addEventListener('click', function() {
-            alert('Receipt generation functionality would be implemented here');
+            issueReceiptModal.classList.remove('hidden');
         });
         
         refundPaymentBtn.addEventListener('click', function() {
@@ -839,6 +1038,18 @@ Jade Albercas</span>
             onlinePaymentModal.classList.add('hidden');
         });
         
+        closeIssueReceiptModal.addEventListener('click', function() {
+            issueReceiptModal.classList.add('hidden');
+        });
+        
+        cancelIssueReceipt.addEventListener('click', function() {
+            issueReceiptModal.classList.add('hidden');
+        });
+        
+        closeRecordOnlinePaymentModal.addEventListener('click', function() {
+            recordOnlinePaymentModal.classList.add('hidden');
+        });
+        
         processOnlinePayment.addEventListener('click', function() {
             onlinePaymentModal.classList.add('hidden');
             paymentGatewayModal.classList.remove('hidden');
@@ -867,13 +1078,13 @@ Jade Albercas</span>
         });
         
         confirmLogout.addEventListener('click', function() {
-            // In a real app, this would redirect to logout
+      
             alert('Logout functionality would be implemented here');
             logoutModal.classList.add('hidden');
         });
         
-        // Close modals when clicking outside
-        [generateInvoiceModal, cashPaymentModal, onlinePaymentModal, paymentGatewayModal, paymentSuccessModal, logoutModal].forEach(modal => {
+   
+        [generateInvoiceModal, cashPaymentModal, onlinePaymentModal, issueReceiptModal, recordOnlinePaymentModal, paymentGatewayModal, paymentSuccessModal, logoutModal].forEach(modal => {
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     modal.classList.add('hidden');
@@ -881,7 +1092,7 @@ Jade Albercas</span>
             });
         });
 
-        // Form submissions
+   
         generateInvoiceForm.addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Invoice generated successfully! (This is a frontend demo - no actual data saved)');
@@ -896,7 +1107,20 @@ Jade Albercas</span>
             cashPaymentForm.reset();
         });
 
-        // Function to render invoices table
+        issueReceiptForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Receipt issued successfully! (This is a frontend demo - no actual data saved)');
+            issueReceiptModal.classList.add('hidden');
+            issueReceiptForm.reset();
+        });
+
+        recordOnlinePaymentBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Online payment recorded successfully! (This is a frontend demo - no actual data saved)');
+            recordOnlinePaymentModal.classList.add('hidden');
+        });
+
+     
         function renderInvoicesTable() {
             invoicesTableBody.innerHTML = '';
             
@@ -933,7 +1157,7 @@ Jade Albercas</span>
                 invoicesTableBody.appendChild(row);
             });
             
-            // Add event listeners to view invoice buttons
+ 
             document.querySelectorAll('.view-invoice-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const invoiceId = parseInt(this.getAttribute('data-invoice-id'));
@@ -941,7 +1165,7 @@ Jade Albercas</span>
                 });
             });
             
-            // Add event listeners to payment buttons
+     
             document.querySelectorAll('.payment-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const invoiceId = parseInt(this.getAttribute('data-invoice-id'));
@@ -950,7 +1174,7 @@ Jade Albercas</span>
             });
         }
 
-        // Function to render payments table
+       
         function renderPaymentsTable() {
             paymentsTableBody.innerHTML = '';
             
@@ -964,7 +1188,7 @@ Jade Albercas</span>
                     <td class="py-4 px-6 font-medium">${payment.paymentId}</td>
                     <td class="py-4 px-6">${payment.invoice}</td>
                     <td class="py-4 px-6">${payment.guest}</td>
-                    <td class="py-4 px-6 font-bold">$${payment.amount}</td>
+                    <td class="py-4 px-6 font-bold">₱${payment.amount}</td>
                     <td class="py-4 px-6">${payment.method}</td>
                     <td class="py-4 px-6">
                         <span class="px-3 py-1 rounded-full text-xs font-medium ${statusClass}">${statusText}</span>
@@ -985,15 +1209,14 @@ Jade Albercas</span>
                 paymentsTableBody.appendChild(row);
             });
             
-            // Add event listeners to receipt buttons
+     
             document.querySelectorAll('.receipt-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const paymentId = parseInt(this.getAttribute('data-payment-id'));
                     issueReceipt(paymentId);
                 });
             });
-            
-            // Add event listeners to refund buttons
+       
             document.querySelectorAll('.refund-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const paymentId = parseInt(this.getAttribute('data-payment-id'));
@@ -1002,48 +1225,48 @@ Jade Albercas</span>
             });
         }
 
-        // Function to view invoice details
+
         function viewInvoice(invoiceId) {
             const invoice = invoices.find(i => i.id === invoiceId);
             if (!invoice) return;
             
-            alert(`Invoice Details:\n\nInvoice #: ${invoice.number}\nGuest: ${invoice.guest}\nReservation: ${invoice.reservation}\nAmount: $${invoice.amount}\nStatus: ${invoice.status}\nDue Date: ${invoice.dueDate}`);
+            alert(`Invoice Details:\n\nInvoice #: ${invoice.number}\nGuest: ${invoice.guest}\nReservation: ${invoice.reservation}\nAmount: ₱${invoice.amount}\nStatus: ${invoice.status}\nDue Date: ${invoice.dueDate}`);
         }
 
-        // Function to process payment
+ 
         function processPayment(invoiceId) {
             const invoice = invoices.find(i => i.id === invoiceId);
             if (!invoice) return;
             
-            // For demo purposes, we'll just open the online payment modal
+   
             onlinePaymentModal.classList.remove('hidden');
         }
 
-        // Function to issue receipt
+        
         function issueReceipt(paymentId) {
             const payment = payments.find(p => p.id === paymentId);
             if (!payment) return;
             
-            alert(`Receipt for Payment ${payment.paymentId}\n\nIssued to: ${payment.guest}\nAmount: $${payment.amount}\nMethod: ${payment.method}\nDate: ${payment.date}\n\nReceipt would be generated and available for download/printing.`);
+            alert(`Receipt for Payment ${payment.paymentId}\n\nIssued to: ${payment.guest}\nAmount: ₱${payment.amount}\nMethod: ${payment.method}\nDate: ${payment.date}\n\nReceipt would be generated and available for download/printing.`);
         }
 
-        // Function to refund payment
+     
         function refundPayment(paymentId) {
             const payment = payments.find(p => p.id === paymentId);
             if (!payment) return;
             
             if (confirm(`Are you sure you want to refund ₱${payment.amount} for payment ${payment.paymentId}?`)) {
-                // In a real app, this would call an API to process the refund
+              
                 payment.status = 'refunded';
                 
-                // Re-render the UI
+               
                 renderPaymentsTable();
                 
                 alert(`Refund of ₱${payment.amount} has been processed for payment ${payment.paymentId}.`);
             }
         }
 
-        // Search functionality
+  
         const searchInput = document.querySelector('input[type="text"]');
         searchInput.addEventListener('keyup', function() {
             const searchTerm = this.value.toLowerCase();
@@ -1065,9 +1288,8 @@ Jade Albercas</span>
             renderPaymentsTable();
         });
 
-        // Initialize charts
+      
         function initializeCharts() {
-            // Payment Method Chart
             const paymentMethodCtx = document.getElementById('paymentMethodChart').getContext('2d');
             new Chart(paymentMethodCtx, {
                 type: 'doughnut',
@@ -1102,7 +1324,7 @@ Jade Albercas</span>
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                     datasets: [{
-                        label: 'Revenue ($)',
+                        label: 'Revenue (₱)',
                         data: [8500, 10200, 9800, 11000, 12458, 10500],
                         borderColor: '#4CAF50',
                         backgroundColor: 'rgba(76, 175, 80, 0.1)',
