@@ -55,7 +55,7 @@
                    <li>
                          <a href="{{ route('admin.users.index') }}" 
                                 class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }} flex items-center py-3 px-6 text-gray-600">
-                                <i class="fas fa-users mr-3"></i> Users
+                                <i class="fas fa-users mr-3"></i> Guests
                             </a>
                     </li>
                     <li>
@@ -112,7 +112,7 @@
         <header class="mb-8">
             <div class="flex justify-between items-center">
                 <div>
-                    <h1 class="text-3xl font-bold text-eco-dark">User Profile</h1>
+                    <h1 class="text-3xl font-bold text-eco-dark">Guest Profile</h1>
                     <p class="text-gray-600">Guest stay history and details</p>
                 </div>
                 <a href="{{ route('admin.users.index') }}" 

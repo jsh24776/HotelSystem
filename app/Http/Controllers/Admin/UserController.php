@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use App\Models\Reservation;
+use App\Models\Room;
 
 class UserController extends Controller
 {
@@ -42,28 +45,46 @@ class UserController extends Controller
         return view('admin.users.edit', compact('user')); 
     }
 
-    public function update(Request $request, User $user)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string',
-            'status' => 'required|in:Check-in,Check-out',
-        ]);
+  public function update(Request $request, User $user)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'phone' => 'nullable|string',
+        'status' => 'required|in:check-in,check-out',
+    ]);
 
+    DB::beginTransaction();
+    try {
+        
         $user->update($validated);
 
+        if (strtolower($validated['status']) === 'check-out') {
+        
+            $reservations = \App\Models\Reservation::where('user_id', $user->id)
+                ->where('status', 'check-in')  
+                ->get();
+
+            foreach ($reservations as $reservation) {
+              
+                \App\Models\Room::where('id', $reservation->room_id)
+                    ->update(['status' => 'Available']);
+
+                $reservation->delete();
+           
+            }
+        }
+
+        DB::commit();
         return redirect()->route('admin.users.index')
             ->with('success', 'User updated successfully.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->route('admin.users.index')
+            ->with('error', 'Failed to update user: ' . $e->getMessage());
     }
+}
 
-    public function destroy(User $user)
-    {
-         $user->update(['is_archived' => true]);
-
-    return redirect()->route('admin.users.index')
-        ->with('success', 'User archived successfully.');
-    }
 
     public function restore($id)
 {

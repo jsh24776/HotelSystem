@@ -24,7 +24,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     Route::resource('users', UserController::class);
     Route::post('/users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}', action: [UserController::class, 'show'])->name('users.show');
     Route::get('/users/{user}/stay-history', [UserController::class, 'getStayHistory'])->name('users.stay-history');
 
     Route::get('/bookings', [ReservationController::class, 'index'])->name('bookings.index');

@@ -279,7 +279,7 @@
                             <p class="text-sm text-gray-$500">FD Role</p>
                         </div>
                     </div>
-                ->
+            
                     <button id="mobileLogout" class="md:hidden text-gray-500 hover:text-eco-dark">
                         <i class="fas fa-sign-out-alt"></i>
                     </button>
@@ -541,7 +541,7 @@
         </div>
     </div>
 
-    <!-- Reservation Details -->
+   
     <div>
         <h4 class="text-lg font-semibold text-eco-dark mb-3">Reservation Details</h4>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -648,7 +648,7 @@
         </div>
     </div>
 
-    <!-- Invoice Preview Modal -->
+
     <div id="invoicePreviewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
@@ -658,7 +658,7 @@
                 </button>
             </div>
             
-            <!-- Invoice Template -->
+
             <div class="border rounded-lg p-6">
                 <div class="flex justify-between items-start mb-6">
                     <div>
@@ -1041,12 +1041,12 @@
     });
     
     confirmLogout.addEventListener('click', function() {
-        // Logout functionality would be implemented here
+     
         alert('Logout functionality would be implemented here');
         logoutModal.classList.add('hidden');
     });
     
-    // Close modals when clicking outside
+
     [createReservationModal, customerManagementModal, invoicePreviewModal, paymentProcessingModal, paymentSuccessModal, logoutModal].forEach(modal => {
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
@@ -1120,8 +1120,12 @@ createReservationForm.addEventListener('submit', async function(e) {
   function fetchReservations() {
     console.log('Fetching reservations...');
     
-    // Use the correct route - now it should be /admin/reservations/data
-    fetch('/admin/reservations/data')
+  
+ 
+    fetch('/admin/reservations/data', {
+        credentials: 'same-origin' 
+    })
+
         .then(response => {
             console.log('Response status:', response.status);
             console.log('Response URL:', response.url);
@@ -1164,7 +1168,7 @@ createReservationForm.addEventListener('submit', async function(e) {
     }
     
     reservations.forEach(reservation => {
-        // Convert status to lowercase for CSS classes and handle different statuses
+
         const statusLower = reservation.status.toLowerCase();
         const statusClass = `reservation-${statusLower}`;
         
@@ -1215,18 +1219,17 @@ createReservationForm.addEventListener('submit', async function(e) {
         
         reservationsTableBody.appendChild(row);
     });
-    
-    // Add event listeners to reservation buttons
+
     addReservationEventListeners();
 }
 
-// Helper function to format dates
+
 function formatDate(dateString) {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
 }
 
-// Helper function to calculate days until check-in
+
 function getDaysUntil(checkInDate) {
     const today = new Date();
     const checkIn = new Date(checkInDate);
@@ -1273,7 +1276,7 @@ function addReservationEventListeners() {
 
 
    function fetchRooms() {
-    fetch('/rooms') // Now this will work without admin prefix
+    fetch('/rooms') 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.status);
@@ -1484,7 +1487,7 @@ function renderRoomCards(rooms) {
 
 
 function bookRoom(roomId) {
-    // Find the room in the current rooms data
+
     fetch('/rooms')
         .then(response => response.json())
         .then(rooms => {

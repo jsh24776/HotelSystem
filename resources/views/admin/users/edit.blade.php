@@ -270,13 +270,19 @@
                         
                         <!-- Phone -->
                         <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                            <input type="tel" 
-                                   name="phone" 
-                                   id="phone" 
-                                   value="{{ old('phone', $user->phone) }}"
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent">
-                        </div> 
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                <input type="tel" 
+                        name="phone" 
+                        id="phone" 
+                        value="{{ old('phone', $user->phone) }}"
+                        pattern="[0-9]{11}" 
+                        maxlength="11"
+                        inputmode="numeric"
+                        title="Please enter exactly 11 digits"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent"
+                        required>
+                </div>
+
                         <div>
                             <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status *</label>
                             <select name="status" 
@@ -284,8 +290,8 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-eco-accent focus:border-transparent"
                                     required>
                                 <option value="">Select Status</option>
-                                <option value="Check-in" {{ old('status', $user->status) == 'Check-in' ? 'selected' : '' }}>Check-in</option>
-                                <option value="Check-out" {{ old('status', $user->status) == 'Check-out' ? 'selected' : '' }}>Check-out</option>
+                                <option value="check-in" {{ old('status', $user->status) == 'check-in' ? 'selected' : '' }}>Check-in</option>
+                                <option value="check-out" {{ old('status', $user->status) == 'check-out' ? 'selected' : '' }}>Check-out</option>
                             </select>
                         </div>
                         
